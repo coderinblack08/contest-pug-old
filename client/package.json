@@ -1,6 +1,6 @@
 {
-  "name": "with-typescript-eslint-jest",
-  "author": "@erikdstock",
+  "name": "contest-pug",
+  "author": "coderinblack",
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
@@ -26,6 +26,7 @@
     ]
   },
   "dependencies": {
+    "@types/yup": "^0.29.4",
     "formik": "^2.1.5",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
