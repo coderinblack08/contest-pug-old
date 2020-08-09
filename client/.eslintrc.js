@@ -22,7 +22,6 @@ module.exports = {
     project: './tsconfig.json',
   },
   rules: {
-    'no-console': 0,
     'react/react-in-jsx-scope': 0,
     'react/display-name': 0,
     'react/prop-types': 0,

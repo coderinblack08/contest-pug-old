@@ -11,8 +11,12 @@ interface Values {
 }
 
 const Register: React.FC = () => {
-  const submitForm = async (values: Values, { setSubmitting }) => {
+  const submitForm = async (
+    values: Values,
+    { setSubmitting }: { setSubmitting: any }
+  ) => {
     setSubmitting(true);
+    // eslint-disable-next-line no-console
     console.log(values);
     setSubmitting(false);
   };
