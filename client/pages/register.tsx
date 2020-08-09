@@ -169,7 +169,7 @@ const Register: React.FC = () => {
                               clipRule="evenodd"
                             ></path>
                           </svg>
-                          <div className="ml-3">
+                          <div className="ml-2 text-md font-medium">
                             <div>{errors.name}</div>
                             <div>{errors.email}</div>
                             <div>{errors.password}</div>
