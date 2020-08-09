@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import { useMutation } from 'figbird';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
@@ -11,13 +12,22 @@ interface Values {
 }
 
 const Register: React.FC = () => {
+  const { create } = useMutation('users');
+
   const submitForm = async (
     values: Values,
     { setSubmitting }: { setSubmitting: any }
   ) => {
     setSubmitting(true);
-    // eslint-disable-next-line no-console
-    console.log(values);
+    try {
+      await create(values);
+    } catch (error) {
+      // TODO: Add proper error message
+      window.alert(
+        'Registration failed. Likely causes include: Email already taken, server down, or disconnected from the internet.'
+      );
+      console.error(error);
+    }
     setSubmitting(false);
   };
 
@@ -28,6 +38,7 @@ const Register: React.FC = () => {
       .required('Name is a required field'),
     email: Yup.string()
       .email('Please enter a valid email address')
+      .max(500)
       .required('Email is a required field'),
     password: Yup.string()
       .min(8, 'Password must be at least 8 characters long')

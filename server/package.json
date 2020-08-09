@@ -1,0 +1,81 @@
+{
+  "name": "contest-pug",
+  "description": "Contest Pug Restful Backend",
+  "version": "0.0.0",
+  "homepage": "",
+  "private": true,
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "coderinblack",
+    "email": "kevinlu.email@gmail.com"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/",
+    "config": "config/"
+  },
+  "engines": {
+    "node": "^14.0.0",
+    "yarn": ">= 0.18.0"
+  },
+  "scripts": {
+    "test": "yarn run lint && yarn run compile && yarn run jest",
+    "lint": "eslint src/. test/. --config .eslintrc.json --ext .ts --fix",
+    "dev": "ts-node-dev --no-notify src/",
+    "start": "yarn run compile && node lib/",
+    "jest": "jest  --forceExit",
+    "compile": "shx rm -rf lib/ && tsc"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": []
+  },
+  "types": "lib/",
+  "dependencies": {
+    "@feathersjs/authentication": "^4.5.3",
+    "@feathersjs/authentication-local": "^4.5.4",
+    "@feathersjs/authentication-oauth": "^4.5.4",
+    "@feathersjs/configuration": "^4.5.3",
+    "@feathersjs/errors": "^4.5.3",
+    "@feathersjs/express": "^4.5.4",
+    "@feathersjs/feathers": "^4.5.3",
+    "@feathersjs/socketio": "^4.5.4",
+    "@feathersjs/transport-commons": "^4.5.7",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "feathers-authentication-hooks": "^1.0.2",
+    "feathers-hooks-common": "^5.0.3",
+    "feathers-mongoose": "^8.3.1",
+    "helmet": "^3.23.3",
+    "mongodb-core": "^3.2.7",
+    "mongoose": "^5.9.22",
+    "serve-favicon": "^2.5.0",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.7",
+    "@types/helmet": "^0.0.47",
+    "@types/jest": "^26.0.9",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.36",
+    "@types/serve-favicon": "^2.5.0",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "axios": "^0.19.2",
+    "eslint": "^7.4.0",
+    "jest": "^26.2.2",
+    "shx": "^0.3.2",
+    "ts-jest": "^26.1.4",
+    "ts-node-dev": "^1.0.0-pre.56",
+    "typescript": "^3.9.6"
+  }
+}
