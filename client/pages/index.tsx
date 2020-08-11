@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '../components/navigation/Navbar';
 
@@ -44,7 +45,11 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center flex-wrap my-10 sm:mx-5">
-        <div className="p-4 lg:w-1/3">
+        <motion.div
+          className="p-4 lg:w-1/3"
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+        >
           <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
             <div className="flex items-center mb-3">
               <div className="inline-flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-primary text-white flex-shrink-0">
@@ -87,8 +92,13 @@ const Home: React.FC = () => {
               </Link>
             </div>
           </div>
-        </div>
-        <div className="p-4 lg:w-1/3">
+        </motion.div>
+        <motion.div
+          className="p-4 lg:w-1/3"
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+        >
           <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
             <div className="flex items-center mb-3">
               <div className="inline-flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-primary text-white flex-shrink-0">
@@ -132,8 +142,13 @@ const Home: React.FC = () => {
               </Link>
             </div>
           </div>
-        </div>
-        <div className="p-4 lg:w-1/3">
+        </motion.div>
+        <motion.div
+          className="p-4 lg:w-1/3"
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.15 }}
+        >
           <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
             <div className="flex items-center mb-3">
               <div className="inline-flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-primary text-white flex-shrink-0">
@@ -176,7 +191,7 @@ const Home: React.FC = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
       <div className="bg-gray-100 border border-gray-200 mt-20">
         <div className="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">

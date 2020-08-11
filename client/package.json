@@ -26,6 +26,7 @@
     "@types/yup": "^0.29.4",
     "figbird": "^0.8.1",
     "formik": "^2.1.5",
+    "framer-motion": "^2.3.0",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
     "imagemin-svgo": "^8.0.0",

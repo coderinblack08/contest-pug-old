@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import type { AppProps } from 'next/app';
+import { AnimatePresence } from 'framer-motion';
 import { Provider } from 'figbird';
 import feathers from '../api/feathers-client';
 import useStore from '../store';
@@ -13,7 +14,7 @@ const MyApp = ({ Component, pageProps }: AppProps): any => {
     const reAuth = async () => {
       try {
         const authenticatedUser = await feathers.reAuthenticate();
-        setUser(authenticatedUser);
+        setUser(authenticatedUser.user);
         // eslint-disable-next-line no-empty
       } catch (error) {}
     };
@@ -31,7 +32,9 @@ const MyApp = ({ Component, pageProps }: AppProps): any => {
         <meta name="keywords" content="Contest Pug, contests, competitions" />
       </Head>
       <Provider feathers={feathers}>
-        <Component {...pageProps} />
+        <AnimatePresence exitBeforeEnter>
+          <Component {...pageProps} />
+        </AnimatePresence>
       </Provider>
     </div>
   );
