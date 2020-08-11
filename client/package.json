@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^4.5.7",
     "@feathersjs/feathers": "^4.5.7",
     "@feathersjs/socketio-client": "^4.5.7",
     "@types/yup": "^0.29.4",
@@ -35,7 +36,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "socket.io-client": "^2.3.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "zustand": "^2.2.4"
   },
   "devDependencies": {
     "@testing-library/react": "^10.4.8",

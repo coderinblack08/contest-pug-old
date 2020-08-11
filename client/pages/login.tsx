@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Formik } from 'formik';
-import { useMutation } from 'figbird';
+import { useFeathers } from 'figbird';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 import useStore from '../store';
@@ -8,15 +8,14 @@ import Link from 'next/link';
 import Navbar from '../components/navigation/Navbar';
 
 interface Values {
-  name: string;
   email: string;
   password: string;
 }
 
 const Register: React.FC = () => {
   const router = useRouter();
+  const { authenticate } = useFeathers();
   const setUser = useStore((state) => state.setUser);
-  const { create } = useMutation('users');
 
   const submitForm = async (
     values: Values,
@@ -24,23 +23,20 @@ const Register: React.FC = () => {
   ) => {
     setSubmitting(true);
     try {
-      const createdUser = await create(values);
-      setUser(createdUser);
-      router.push('/login');
+      const authenticatedUser = await authenticate({
+        strategy: 'local',
+        ...values,
+      });
+      setUser(authenticatedUser.user);
+      router.push('/dashboard');
     } catch (error) {
-      window.alert(
-        'Registration failed. Likely causes include: Email already taken, server down, or disconnected from the internet.'
-      );
+      window.alert('User login failed, try again!');
       console.error(error);
     }
     setSubmitting(false);
   };
 
   const userSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(2, 'Name must be at least 5 characters long')
-      .max(100, 'Name exceeds the 100 character limit')
-      .required('Name is a required field'),
     email: Yup.string()
       .email('Please enter a valid email address')
       .max(500)
@@ -55,7 +51,6 @@ const Register: React.FC = () => {
       <Navbar />
       <Formik
         initialValues={{
-          name: '',
           email: '',
           password: '',
         }}
@@ -74,42 +69,18 @@ const Register: React.FC = () => {
                   alt="Contest Pug Logo"
                 />
                 <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-                  Create your Account
+                  Account Sign In
                 </h2>
                 <p className="mt-2 text-center text-sm leading-5 text-gray-600">
                   Or{' '}
-                  <Link href="/login">
+                  <Link href="/register">
                     <a className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                      sign in with an existing account
+                      create a new account
                     </a>
                   </Link>
                 </p>
               </div>
               <form className="mx-5 sm:mx-0 mt-8" onSubmit={handleSubmit}>
-                <div className="rounded-md shadow-sm transition ease-in-out duration-500">
-                  <div className="flex items-center appearance-none rounded-none relative w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:z-10 sm:text-sm sm:leading-5">
-                    <svg
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      className="text-gray-500 w-5 h-5 mr-2"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    <input
-                      className="w-full focus:outline-none"
-                      name="name"
-                      type="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      placeholder="Full Name"
-                      aria-label="Full Name"
-                    />
-                  </div>
-                </div>
                 <div className="rounded-md shadow-sm transition ease-in-out duration-500">
                   <div className="-mt-px flex items-center appearance-none rounded-none relative w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:z-10 sm:text-sm sm:leading-5">
                     <svg
@@ -166,16 +137,13 @@ const Register: React.FC = () => {
                       htmlFor="terms-of-service"
                       className="ml-2 block text-sm leading-5 text-gray-900"
                     >
-                      I Agree to the{' '}
-                      <Link href="/">
-                        <a className="text-primary">Terms of Service</a>
-                      </Link>
+                      Keep me logged in
                     </label>
                   </div>
                 </div>
                 <div className="z-20 absolute left-0 bottom-0">
                   {(() => {
-                    if (errors.name || errors.email || errors.password) {
+                    if (errors.email || errors.password) {
                       return (
                         <div className="flex shadow-lg mb-5 mx-5 mt-2 text-white bg-primary text-sm py-3 px-6 rounded">
                           <svg
@@ -190,7 +158,6 @@ const Register: React.FC = () => {
                             ></path>
                           </svg>
                           <div className="ml-2 text-md font-medium">
-                            <div>{errors.name}</div>
                             <div>{errors.email}</div>
                             <div>{errors.password}</div>
                           </div>
@@ -211,14 +178,10 @@ const Register: React.FC = () => {
                         viewBox="0 0 20 20"
                         className="text-secondary w-5 h-5"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clipRule="evenodd"
-                        ></path>
+                        <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path>
                       </svg>
                     </span>
-                    Create Account
+                    Sign In
                   </button>
                 </div>
               </form>

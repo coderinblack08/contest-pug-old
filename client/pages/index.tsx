@@ -26,7 +26,7 @@ const Home: React.FC = () => {
                 </Link>
               </div>
               <div className="mt-3 sm:mt-0 sm:ml-3">
-                <Link href="/login">
+                <Link href="/dashboard">
                   <a className="w-full flex items-center justify-center shadow-md px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-primary bg-white hover:opacity-75 focus:outline-none transition duration-500 ease-in-out md:py-4 md:text-lg md:px-10">
                     Dashboard
                   </a>
