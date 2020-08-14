@@ -1,11 +1,17 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useFeathers } from 'figbird';
 import Link from 'next/link';
 import useStore from '../../store';
+import { motion } from 'framer-motion';
 
 const Sidenav: React.FC = () => {
+  const feathers = useFeathers();
+  const router = useRouter();
+  const route = router.pathname.substring(1, router.pathname.length);
   const user = useStore((state) => state.user);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
   return (
-    // <div>
     <div className="hidden lg:block h-screen w-full max-w-xs bg-white border-r border-gray-200">
       <Link href="/dashboard">
         <a className="flex title-font font-semibold items-center px-8 py-4 text-gray-900">
@@ -19,7 +25,11 @@ const Sidenav: React.FC = () => {
       </Link>
       <nav className="flex flex-col px-5 py-2">
         <Link href="/dashboard">
-          <a className="flex items-center text-gray-600 font-medium text-xl px-6 py-4 bg-gray-100 rounded-md">
+          <a
+            className={`flex items-center text-gray-600 font-medium text-xl px-6 py-4 ${
+              route === 'dashboard' ? 'bg-gray-100 rounded-md' : ''
+            }`}
+          >
             <svg
               fill="none"
               strokeLinecap="round"
@@ -35,7 +45,11 @@ const Sidenav: React.FC = () => {
           </a>
         </Link>
         <Link href="/search">
-          <a className="flex items-center text-gray-600 font-medium text-xl px-6 py-4">
+          <a
+            className={`flex items-center text-gray-600 font-medium text-xl px-6 py-4 ${
+              route === 'search' ? 'bg-gray-100 rounded-md' : ''
+            }`}
+          >
             <svg
               fill="none"
               strokeLinecap="round"
@@ -51,7 +65,11 @@ const Sidenav: React.FC = () => {
           </a>
         </Link>
         <Link href="/contests">
-          <a className="flex items-center text-gray-600 font-medium text-xl px-6 py-4">
+          <a
+            className={`flex items-center text-gray-600 font-medium text-xl px-6 py-4 ${
+              route === 'contests' ? 'bg-gray-100 rounded-md' : ''
+            }`}
+          >
             <svg
               fill="none"
               strokeLinecap="round"
@@ -67,7 +85,11 @@ const Sidenav: React.FC = () => {
           </a>
         </Link>
         <Link href="/scores">
-          <a className="flex items-center text-gray-600 font-medium text-xl px-6 py-4">
+          <a
+            className={`flex items-center text-gray-600 font-medium text-xl px-6 py-4 ${
+              route === 'scores' ? 'bg-gray-100 rounded-md' : ''
+            }`}
+          >
             <svg
               fill="none"
               strokeLinecap="round"
@@ -83,46 +105,106 @@ const Sidenav: React.FC = () => {
           </a>
         </Link>
       </nav>
-      <div className="absolute bottom-0 max-w-xs w-full flex items-center bg-gray-100 p-5 border-t border-r border-gray-200">
-        <div className="p-3 shadow-inner rounded-full flex items-center justify-center bg-gray-200">
-          <svg
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="w-6 h-6 text-gray-600"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
+      <div className="absolute bottom-0 max-w-xs w-full">
         {(() => {
-          if (user) {
+          if (showDropdown) {
             return (
-              <div className="flex flex-col ml-3">
-                <h2 className="text-gray-800 font-medium text-lg leading-none">
-                  {user.name}
-                </h2>
-                <p className="text-gray-700 text-md">
-                  @{user.name.toLowerCase().trim().split(' ').join('')}
-                </p>
-              </div>
+              <motion.div
+                className="ml-auto mr-3 shadow-lg bg-white p-2 mb-3 rounded w-56"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+              >
+                <Link href="/settings">
+                  <a className="flex items-center text-gray-600 text-lg py-2 px-4">
+                    <svg
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="user-circle w-6 h-6 mr-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    User Settings
+                  </a>
+                </Link>
+                <Link href="/login">
+                  <a
+                    className="flex items-center text-gray-600 text-lg py-2 px-4 bg-gray-100 rounded-md"
+                    onClick={() => {
+                      feathers.logout();
+                    }}
+                  >
+                    <svg
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="logout w-6 h-6 mr-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                    Sign Out
+                  </a>
+                </Link>
+              </motion.div>
             );
           }
         })()}
-        <div className="ml-auto cursor-pointer">
-          <svg
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            className="w-6 h-6 text-gray-500 hover:text-gray-600"
-            stroke="currentColor"
+        <div className="flex items-center bg-gray-100 p-5 border-t border-r border-gray-200">
+          <div className="p-3 rounded-full flex items-center justify-center bg-gray-200">
+            <svg
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="w-6 h-6 text-gray-600"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          {(() => {
+            if (user) {
+              return (
+                <div className="flex flex-col ml-3">
+                  <h2 className="text-gray-800 font-medium text-lg leading-none">
+                    {user.name}
+                  </h2>
+                  <p className="text-gray-700 text-md">
+                    @{user.name.toLowerCase().trim().split(' ').join('')}
+                  </p>
+                </div>
+              );
+            }
+          })()}
+          <div
+            className="ml-auto cursor-pointer"
+            onClick={() => {
+              setShowDropdown(!showDropdown);
+            }}
           >
-            <path d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-          </svg>
+            <svg
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              className="w-6 h-6 text-gray-500 hover:text-gray-600"
+              stroke="currentColor"
+            >
+              <path d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>

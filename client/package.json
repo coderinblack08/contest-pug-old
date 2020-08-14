@@ -41,6 +41,7 @@
     "zustand": "^2.2.4"
   },
   "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
     "@testing-library/react": "^10.4.8",
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
