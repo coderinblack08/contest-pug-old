@@ -75,7 +75,7 @@ const Contest: React.FC = () => {
         <header className="flex flex-col sm:flex-row items-center justify-between px-10 bg-white py-5 sm:py-0 sm:h-24 w-full border-b border-gray-200">
           <nav className="font-medium inline-flex space-x-10 items-center text-gray-600 text-lg">
             <Link href={`/contest/${id}`}>
-              <a className="text-gray-700 bg-gray-200 rounded px-5 py-2">
+              <a className="text-gray-700 shadow border border-gray-100 bg-white rounded px-5 py-2">
                 Homepage
               </a>
             </Link>
