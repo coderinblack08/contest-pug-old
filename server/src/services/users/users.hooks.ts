@@ -17,7 +17,7 @@ export default {
   before: {
     all: [],
     find: [authenticate('jwt'), limitToUser],
-    get: [authenticate('jwt'), limitToUser],
+    get: [authenticate('jwt')],
     create: [hashPassword('password')],
     update: [hashPassword('password'), authenticate('jwt'), limitToUser],
     patch: [hashPassword('password'), authenticate('jwt'), limitToUser],
