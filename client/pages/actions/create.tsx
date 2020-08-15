@@ -1,12 +1,48 @@
 import React, { useState } from 'react';
+import { useMutation } from 'figbird';
+import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, FormikErrors } from 'formik';
 import Sidenav from '../../components/navigation/Sidenav';
 import MobileSidenav from '../../components/navigation/MobileSidenav';
 import Statistics from '../../components/shared/Statistics';
 import Link from 'next/link';
 
+interface ErrorProps {
+  error: FormikErrors<Date> | string | undefined;
+}
+
+const Error: React.FC<ErrorProps> = ({ error }) => {
+  return (
+    <div>
+      {(() => {
+        if (error) {
+          return (
+            <div className="flex items-center text-red-500 mt-2">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="exclamation-circle w-4 h-4 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              {error}
+            </div>
+          );
+        }
+      })()}
+    </div>
+  );
+};
+
 const Contests: React.FC = () => {
+  const { create } = useMutation('contests');
   const [tab, setTab] = useState(0);
   const contestSchema = Yup.object().shape({
     name: Yup.string()
@@ -20,7 +56,7 @@ const Contests: React.FC = () => {
       .required('Email is a required field'),
     description: Yup.string()
       .max(1e6, 'Description exceeded the 100,000 character limit')
-      .required(),
+      .required('Description is a required field'),
     tag: Yup.string().required('Tag is a required field'),
     length: Yup.number().required('Contest Length is a required field'),
     start_date: Yup.date().required('Plese enter a valid date'),
@@ -28,13 +64,18 @@ const Contests: React.FC = () => {
     private: Yup.boolean().required(),
     leaderboard: Yup.boolean().required(),
   });
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const submitForm = async (
     values: any,
     { setSubmitting }: { setSubmitting: any }
   ) => {
     setSubmitting(true);
-    console.log(values);
+    try {
+      const createdContest = await create(values);
+      // eslint-disable-next-line no-console
+      console.log(createdContest);
+    } catch (error) {
+      console.error(error);
+    }
     setSubmitting(false);
   };
   const contestValues = {
@@ -44,8 +85,8 @@ const Contests: React.FC = () => {
     description: '',
     tag: '',
     length: '',
-    start_date: '',
-    end_date: '',
+    start_date: new Date(),
+    end_date: new Date(),
     private: false,
     leaderboard: true,
   };
@@ -85,8 +126,14 @@ const Contests: React.FC = () => {
           validateOnBlur={false}
           onSubmit={submitForm}
         >
-          {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-          {({ values, errors, isSubmitting, handleChange, handleSubmit }) => (
+          {({
+            values,
+            errors,
+            isSubmitting,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
             <form className="flex flex-col p-5 md:p-12" onSubmit={handleSubmit}>
               {(() => {
                 if (tab === 0) {
@@ -141,28 +188,7 @@ const Contests: React.FC = () => {
                             placeholder="Example"
                             aria-label="Contest Name"
                           />
-                          {(() => {
-                            if (errors.name) {
-                              return (
-                                <div className="flex items-center text-red-500 mt-2">
-                                  <svg
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    className="exclamation-circle w-4 h-4 mr-2"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                  </svg>
-                                  {errors.name}
-                                </div>
-                              );
-                            }
-                          })()}
+                          <Error error={errors.name} />
                         </div>
                         <div className="mt-5">
                           <label
@@ -199,22 +225,7 @@ const Contests: React.FC = () => {
                               />
                             </div>
                           </div>
-                          <div className="flex items-center text-red-500 mt-2">
-                            <svg
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              className="exclamation-circle w-4 h-4 mr-2"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                            {errors.email}
-                          </div>
+                          <Error error={errors.website} />
                         </div>
 
                         <div className="mt-5">
@@ -250,6 +261,7 @@ const Contests: React.FC = () => {
                               aria-label="Contest Email"
                             />
                           </div>
+                          <Error error={errors.email} />
                         </div>
                         <div className="mt-5">
                           <label
@@ -292,6 +304,7 @@ const Contests: React.FC = () => {
                             </a>
                           </div>
                         </div>
+                        <Error error={errors.description} />
                       </div>
                       <nav className="relative inline-flex mt-5">
                         <div
@@ -345,6 +358,7 @@ const Contests: React.FC = () => {
                   );
                 }
               })()}
+
               {(() => {
                 if (tab === 1) {
                   return (
@@ -391,6 +405,7 @@ const Contests: React.FC = () => {
                               aria-label="Contest Tag"
                             />
                           </div>
+                          <Error error={errors.tag} />
                         </div>
                         <div className="mt-5">
                           <label
@@ -425,10 +440,11 @@ const Contests: React.FC = () => {
                               aria-label="Contest Length"
                             />
                           </div>
+                          <Error error={errors.length} />
                         </div>
                         <div className="mt-5">
                           <label
-                            htmlFor="date"
+                            htmlFor="start-date"
                             className="block text-gray-700 font-medium text-md"
                           >
                             Start Date
@@ -449,19 +465,21 @@ const Contests: React.FC = () => {
                                 />
                               </svg>
                             </div>
-                            <input
+                            <DatePicker
+                              name="start-date"
                               className="py-2 px-3 w-full focus:outline-none"
-                              name="date"
-                              type="date"
-                              value={values.start_date}
-                              onChange={handleChange}
-                              aria-label="Start Date"
+                              selected={values.start_date}
+                              dateFormat="MMMM d, yyyy"
+                              onChange={(date) =>
+                                setFieldValue('start_date', date)
+                              }
                             />
                           </div>
+                          <Error error={errors.start_date} />
                         </div>
                         <div className="mt-5">
                           <label
-                            htmlFor="date"
+                            htmlFor="end-date"
                             className="block text-gray-700 font-medium text-md"
                           >
                             End Date
@@ -482,15 +500,17 @@ const Contests: React.FC = () => {
                                 />
                               </svg>
                             </div>
-                            <input
+                            <DatePicker
+                              name="end-date"
                               className="py-2 px-3 w-full focus:outline-none"
-                              name="date"
-                              type="date"
-                              value={values.end_date}
-                              onChange={handleChange}
-                              aria-label="End Date"
+                              selected={values.end_date}
+                              dateFormat="MMMM d, yyyy"
+                              onChange={(date) =>
+                                setFieldValue('end_date', date)
+                              }
                             />
                           </div>
+                          <Error error={errors.end_date} />
                         </div>
                         <div className="flex flex-col space-y-2 my-8">
                           <label className="ml-2 inline-flex items-center text-gray-700 font-medium text-md">

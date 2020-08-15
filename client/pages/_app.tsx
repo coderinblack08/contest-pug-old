@@ -5,6 +5,7 @@ import { Provider } from 'figbird';
 import feathers from '../api/feathers-client';
 import useStore from '../store';
 import Head from 'next/head';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/tailwind.css';
 
 const MyApp = ({ Component, pageProps }: AppProps): any => {
