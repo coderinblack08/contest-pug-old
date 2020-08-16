@@ -1,14 +1,14 @@
-// Initializes the `contests` service on path `/contests`
+// Initializes the `stars` service on path `/stars`
 import { ServiceAddons } from '@feathersjs/feathers';
 import { Application } from '../../declarations';
-import { Contests } from './contests.class';
-import createModel from '../../models/contests.model';
-import hooks from './contests.hooks';
+import { Stars } from './stars.class';
+import createModel from '../../models/stars.model';
+import hooks from './stars.hooks';
 
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    contests: Contests & ServiceAddons<any>;
+    stars: Stars & ServiceAddons<any>;
   }
 }
 
@@ -19,10 +19,10 @@ export default function (app: Application): void {
   };
 
   // Initialize our service with any options it requires
-  app.use('/contests', new Contests(options, app));
+  app.use('/stars', new Stars(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('contests');
+  const service = app.service('stars');
 
   service.hooks(hooks);
 }

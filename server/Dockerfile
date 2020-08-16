@@ -1,11 +1,15 @@
 FROM node:12
 
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash
+
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
 
-RUN npm install
+COPY . /usr/src/app
 
-COPY . .
+ENTRYPOINT ["sh", "./entrypoint.sh"]
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

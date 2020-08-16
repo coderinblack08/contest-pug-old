@@ -43,7 +43,21 @@ export default {
         context.result.user = await context.app.service('users').get({
           _id: context.result.user_id,
         });
-        console.log(context.result);
+        context.result.stars = await (
+          await context.app.service('stars').find({
+            paginate: false,
+            query: {
+              contest_id: context.result._id,
+            },
+          })
+        ).length;
+        context.result.is_stared = await context.app.service('stars').find({
+          paginate: false,
+          query: {
+            contest_id: context.result._id,
+            user_id: context.params.user._id,
+          },
+        });
         return context;
       },
     ],
