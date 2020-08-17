@@ -3,8 +3,13 @@ import { Application } from './declarations';
 import logger from './logger';
 
 export default function (app: Application): void {
+  const mongodb = app.get('mongodb');
+  const password = encodeURIComponent(mongodb.root_password);
+  const connectionString = `mongodb://${mongodb.root_user}:${password}@${mongodb.host}:${mongodb.port}/${mongodb.db_name}?authSource=admin`;
+  console.log(connectionString);
+
   mongoose
-    .connect(app.get('mongodb'), {
+    .connect(connectionString, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,

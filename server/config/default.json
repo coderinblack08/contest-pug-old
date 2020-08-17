@@ -25,5 +25,11 @@
       "passwordField": "password"
     }
   },
-  "mongodb": "MONGODB_URI"
+  "mongodb": {
+    "host": "MONGO_HOST",
+    "port": "MONGO_PORT",
+    "db_name": "MONGO_NAME",
+    "root_user": "MONGO_ROOT_USER",
+    "root_password": "MONGO_ROOT_PASSWORD"
+  }
 }

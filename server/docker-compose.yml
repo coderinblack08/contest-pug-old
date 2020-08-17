@@ -1,10 +1,41 @@
-version: '3'
-app:
-  build: .
-  volumes_from:
-    - yarn-cache
+version: '3.8'
 
-yarn-cache:
-  image: busybox
-  volumes:
-    - /root/.yarn-cache
+# yarn-cache:
+#   image: busybox
+#   volumes:
+#     - /root/.yarn-cache
+
+services:
+  db:
+    image: mongo:4
+    restart: always
+    volumes:
+      - ./docker-data/db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+
+  api:
+    image: contestpug-api
+    build: .
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./:/usr/src/app:cached
+      - node_modules:/usr/src/app/node_modules:delegated
+    # volumes_from:
+    #   - yarn-cache
+    environment:
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      MONGODB_HOST: ${MONGO_HOST}
+      MONGODB_PORT: ${MONGO_PORT}
+      MONGO_ROOT_NAME: ${MONGO_NAME}
+      MONGO_ROOT_USER: ${MONGO_ROOT_USER}
+      MONGO_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+
+volumes:
+  node_modules:
