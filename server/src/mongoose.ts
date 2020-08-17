@@ -6,7 +6,7 @@ export default function (app: Application): void {
   const mongodb = app.get('mongodb');
   const password = encodeURIComponent(mongodb.root_password);
   const connectionString = `mongodb://${mongodb.root_user}:${password}@${mongodb.host}:${mongodb.port}/${mongodb.db_name}?authSource=admin`;
-  console.log(connectionString);
+  console.log(`MONGODB_URI: ${connectionString}`);
 
   mongoose
     .connect(connectionString, {
