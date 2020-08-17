@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useGet } from 'figbird';
+import { useGet, useMutation } from 'figbird';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import Sidenav from '../../components/navigation/Sidenav';
@@ -57,13 +57,14 @@ const Contest: React.FC = () => {
   const {
     query: { id },
   } = useRouter();
-  const { data, isFetching } = useGet('contests', id);
+  const { create: createStar, remove: removeStar } = useMutation('stars');
+  const { data: contest, isFetching } = useGet('contests', id);
 
   const iff = (value: string) => {
-    if (!data) {
+    if (!contest) {
       return '';
     } else {
-      return data[value];
+      return contest[value];
     }
   };
 
@@ -72,8 +73,8 @@ const Contest: React.FC = () => {
       <Sidenav />
       <MobileSidenav />
       <div className="w-full h-screen overflow-y-scroll">
-        <header className="flex flex-col sm:flex-row items-center justify-between px-10 bg-white py-5 sm:py-0 sm:h-24 w-full border-b border-gray-200">
-          <nav className="font-medium inline-flex space-x-10 items-center text-gray-600 text-lg">
+        <header className="sm:space-y-0 space-y-8 flex flex-col sm:flex-row items-center justify-between px-10 bg-white py-5 sm:py-0 sm:h-24 w-full border-b border-gray-200">
+          <nav className="font-medium inline-flex space-x-10 items-center text-gray-600 text-md sm:text-lg">
             <Link href={`/contest/${id}`}>
               <a className="text-gray-700 shadow border border-gray-100 bg-white rounded px-5 py-2">
                 Homepage
@@ -120,6 +121,13 @@ const Contest: React.FC = () => {
                   <div className="flex flex-col sm:flex-row items-start sm:items-center mt-4 md:mt-0 sm:space-x-4">
                     <button
                       type="button"
+                      onClick={async () => {
+                        if (contest.is_stared) {
+                          await removeStar(null, { query: { contest_id: id } });
+                        } else {
+                          await createStar({ contest_id: id });
+                        }
+                      }}
                       className="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-white text-gray-600 font-medium"
                     >
                       <div className="flex items-center bg-gray-100 border-r py-3 px-4">
@@ -130,9 +138,16 @@ const Contest: React.FC = () => {
                         >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                         </svg>
-                        3
+                        {contest.stars}
                       </div>
-                      <div className="py-3 px-4">Star Contest</div>
+                      <div className="py-3 px-4">
+                        {(() => {
+                          if (contest.is_stared) {
+                            return <p>Unstar Contest</p>;
+                          }
+                          return <p>Star Contest</p>;
+                        })()}
+                      </div>
                     </button>
                     <button
                       type="button"
@@ -153,10 +168,10 @@ const Contest: React.FC = () => {
                   <div>
                     <article className="prose lg:prose-md">
                       <h3>Description</h3>
-                      <ReactMarkdown source={data.description} />
+                      <ReactMarkdown source={contest.description} />
                     </article>
                   </div>
-                  <div className="pb-8 lg:pb-0 lg:px-8">
+                  <div className="pb-8 lg:pb-0 md:px-8">
                     <article className="prose lg:prose-md space-y-6">
                       <h3 className="flex items-center">
                         <svg
