@@ -95,7 +95,7 @@ const Contest: React.FC = () => {
           if (!isFetching) {
             return (
               <div className="m-5 sm:m-10">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-5">
+                <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between mb-5">
                   <div>
                     <h1 className="text-gray-700 font-semibold text-2xl">
                       {iff('name')}
@@ -118,15 +118,15 @@ const Contest: React.FC = () => {
                       {' • ' + formatDate(iff('start_date'), iff('end_date'))}
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center mt-4 md:mt-0 sm:space-x-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center mt-4 xl:mt-0 sm:space-x-4">
                     <button
                       type="button"
                       onClick={async () => {
-                        if (contest.is_stared) {
-                          await removeStar(null, { query: { contest_id: id } });
-                        } else {
-                          await createStar({ contest_id: id });
-                        }
+                        // if (contest.is_stared) {
+                        await removeStar(null, { query: { contest_id: id } });
+                        // } else {
+                        //   await createStar({ contest_id: id });
+                        // }
                       }}
                       className="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-white text-gray-600 font-medium"
                     >

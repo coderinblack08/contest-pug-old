@@ -57,7 +57,7 @@ export default {
             contest_id: context.result._id,
             user_id: context.params.user._id,
           },
-        });
+        })[0];
         return context;
       },
     ],

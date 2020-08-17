@@ -1,6 +1,5 @@
 import { HookContext } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
-import { ObjectID } from 'mongodb';
 import { setField } from 'feathers-authentication-hooks';
 import mongoose from 'mongoose';
 
@@ -19,17 +18,7 @@ const limitToUser = setField({
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [
-      async (context: HookContext): Promise<any> => {
-        const { query = {} } = context.params;
-        query.contest_id = new ObjectID(query.contest_id);
-        query.user_id = new ObjectID(context.params.user._id);
-        context.params.query = query;
-        console.log(query);
-
-        return context;
-      },
-    ],
+    find: [],
     get: [],
     create: [
       setUserId,
@@ -48,7 +37,23 @@ export default {
     ],
     update: [limitToUser],
     patch: [limitToUser],
-    remove: [limitToUser],
+    remove: [
+      limitToUser,
+      async (context: HookContext): Promise<any> => {
+        const { query = {} } = context.params;
+        const star = context.app.service('stars').find({
+          query: {
+            contest_id: query.contest_id,
+            user_id: context.params.user._id,
+          },
+        })[0];
+        console.log(star);
+
+        context.id = star._id;
+        console.log(context.id);
+        return context;
+      },
+    ],
   },
 
   after: {
