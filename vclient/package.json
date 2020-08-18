@@ -9,13 +9,21 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^4.5.8",
+    "@feathersjs/feathers": "^4.5.8",
+    "@feathersjs/socketio-client": "^4.5.8",
     "@vue/composition-api": "^1.0.0-beta.10",
     "core-js": "^3.6.5",
+    "feathers-hooks-common": "^5.0.3",
+    "feathers-vuex": "^3.11.5",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue-simpleform": "^1.0.4",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

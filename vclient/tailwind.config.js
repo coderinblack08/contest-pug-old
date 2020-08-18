@@ -739,9 +739,9 @@ module.exports = {
     transitionDuration: ['responsive'],
     transitionDelay: ['responsive'],
   },
-  // plugins: [
-  //   require('@tailwindcss/custom-forms'),
-  //   require('@tailwindcss/typography'),
-  // ],
+  plugins: [
+    require('@tailwindcss/custom-forms'),
+    //   require('@tailwindcss/typography'),
+  ],
   corePlugins: {},
 };

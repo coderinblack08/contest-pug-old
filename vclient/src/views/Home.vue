@@ -42,7 +42,7 @@
         <img
           class="lg:max-w-sm xl:max-w-md hidden lg:block mt-20 xl:ml-20"
           src="../assets/images/teaching.svg"
-          alt="Placeholder"
+          alt="Teaching Illustration"
         />
       </div>
     </div>
