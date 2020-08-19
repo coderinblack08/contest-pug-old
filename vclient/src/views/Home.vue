@@ -237,8 +237,8 @@
 </template>
 
 <script lang="ts">
-import Navbar from '../components/navigation/Navbar.vue';
 import Vue from 'vue';
+import Navbar from '../components/navigation/Navbar.vue';
 
 export default Vue.extend({
   name: 'Home',

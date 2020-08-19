@@ -12,6 +12,7 @@
     "@feathersjs/authentication-client": "^4.5.8",
     "@feathersjs/feathers": "^4.5.8",
     "@feathersjs/socketio-client": "^4.5.8",
+    "@types/yup": "^0.29.5",
     "@vue/composition-api": "^1.0.0-beta.10",
     "core-js": "^3.6.5",
     "feathers-hooks-common": "^5.0.3",
@@ -19,8 +20,8 @@
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vue-simpleform": "^1.0.4",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",

@@ -14,7 +14,7 @@
           <span class="ml-3 text-xl">Contest Pug</span>
         </router-link>
         <div
-          class="flex items-center justify-center rounded-full w-12 h-12 transition ease-in duration-500 hover:bg-gray-100 md:hidden ml-auto mb-2 text-gray-900 cursor-pointer"
+          class="flex items-center justify-center rounded-lg w-12 h-12 transition ease-in duration-500 hover:bg-gray-200 md:hidden ml-auto mb-2 text-gray-600 cursor-pointer"
           @click="toggleNavbar"
         >
           <svg

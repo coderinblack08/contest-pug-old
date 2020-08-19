@@ -24,7 +24,7 @@
             </router-link>
           </p>
         </div>
-        <form class="mx-5 sm:mx-0 mt-8">
+        <form class="mx-5 sm:mx-0 mt-8" @submit.prevent="handleSubmit">
           <div class="rounded-md shadow-sm transition ease-in-out duration-500">
             <div
               class="-mt-px flex items-center appearance-none rounded-none relative w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:z-10 sm:text-sm sm:leading-5"
@@ -45,6 +45,7 @@
                 class="w-full focus:outline-none"
                 name="email"
                 type="text"
+                v-model="initialValues.email"
                 placeholder="Email Address"
                 aria-label="Email Address"
               />
@@ -69,6 +70,7 @@
                 class="w-full focus:outline-none"
                 name="password"
                 type="password"
+                v-model="initialValues.password"
                 placeholder="Password"
                 aria-label="Password"
               />
@@ -109,19 +111,93 @@
             </button>
           </div>
         </form>
+        <div class="z-20 absolute left-0 bottom-0">
+          <div
+            class="flex items-center shadow-lg mb-5 mx-5 mt-2 text-white bg-primary text-sm py-3 px-6 rounded"
+            v-if="errorMessage"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="exclamation-circle w-4 h-4"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <div class="ml-3 text-md font-medium">
+              {{ errorMessage }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Navbar from '../components/navigation/Navbar.vue';
 import Vue from 'vue';
+import * as Yup from 'yup';
+import { ref, reactive } from '@vue/composition-api';
+import Navbar from '../components/navigation/Navbar.vue';
 
 export default Vue.extend({
   name: 'Login',
   components: {
     Navbar,
+  },
+  setup(props, context) {
+    const { User } = context.root.$FeathersVuex.api;
+    const { $store } = context.root;
+
+    const errorMessage = ref('');
+    const initialValues = reactive({ email: '', password: '' });
+
+    const validate = async () => {
+      const userSchema = Yup.object().shape({
+        email: Yup.string()
+          .email('Please enter a valid email address')
+          .max(500)
+          .required('Email is a required field'),
+        password: Yup.string()
+          .min(8, 'Password must be at least 8 characters long')
+          .required('Password is a required field'),
+      });
+      try {
+        await userSchema.validate(initialValues);
+        return null;
+      } catch (errors) {
+        return errors;
+      }
+    };
+
+    const authenticateUser = async () => {
+      $store
+        .dispatch('auth/authenticate', {
+          strategy: 'local',
+          ...initialValues,
+        })
+        .catch(error => {
+          errorMessage.value = 'User Credentials Invalid!';
+        });
+    };
+
+    const handleSubmit = async () => {
+      const validationResults = await validate();
+      if (!validationResults) {
+        await authenticateUser();
+      } else {
+        errorMessage.value = validationResults.message;
+      }
+    };
+
+    return {
+      initialValues,
+      handleSubmit,
+      errorMessage,
+    };
   },
 });
 </script>
