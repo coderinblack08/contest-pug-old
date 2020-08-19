@@ -39,6 +39,16 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Dashboard.vue'),
   },
   {
+    path: '/contests',
+    name: 'Contests',
+    component: () => import('../views/Contests.vue'),
+  },
+  {
+    path: '/actions/create',
+    name: 'Create',
+    component: () => import('../views/actions/Create.vue'),
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import('../views/Error.vue'),

@@ -100,7 +100,7 @@
     </nav>
     <div class="absolute bottom-0 max-w-xs w-full">
       <div
-        class="ml-auto mr-3 rounded-lg bg-white shadow-xs overflow-hidden p-2 mb-3 w-56"
+        class="ml-auto mr-3 rounded-lg bg-white shadow overflow-hidden p-2 mb-3 w-56"
         v-if="showDropdown"
       >
         <router-link to="/settings">
@@ -109,36 +109,34 @@
           >
             <svg
               fill="none"
-              view-box="0 0 24 24"
+              viewBox="0 0 24 24"
               stroke="currentColor"
-              class="user-circle w-6 h-6 mr-2"
+              class="user-circle w-5 h-5 mr-2"
             >
               <path
                 stroke-linecap="round"
-                stroke-linkjoin="round"
+                stroke-linejoin="round"
                 stroke-width="2"
                 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
+              ></path>
             </svg>
             User Settings
           </a>
         </router-link>
         <router-link
           to="/login"
-          class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
+          class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
         >
           <svg
-            fill="none"
-            view-box="0 0 24 24"
-            stroke="currentColor"
-            class="logout w-6 h-6 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="logout w-5 h-5 mr-2"
           >
             <path
-              stroke-linecap="round"
-              stroke-linkjoin="round"
-              stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
+              fill-rule="evenodd"
+              d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+              clip-rule="evenodd"
+            ></path>
           </svg>
           Sign Out
         </router-link>

@@ -33,16 +33,21 @@
         <Statistics />
       </header>
       <div
-        class="flex flex-col md:flex-row justify-between md:items-center bg-primary m-10 rounded-md py-6 px-8"
+        class="flex flex-col md:flex-row justify-between md:items-center bg-primary m-5 md:m-10 rounded-md py-6 px-8 shadow"
       >
         <div>
-          <h1 class="text-white font-semibold text-2xl">Welcome Back!</h1>
-          <p class="text-secondary text-lg font-medium">
+          <h1 class="text-white font-semibold text-2xl">
+            Welcome Back
+            <span v-if="$store.state.auth.user">
+              {{ $store.state.auth.user.name }}
+            </span>
+          </h1>
+          <p class="text-secondary text-md md:text-lg font-medium">
             Don't forget to study for you upcoming competition Mathcounts!
           </p>
         </div>
         <button
-          class="flex justify-center items-center text-primary font-medium bg-secondary rounded py-4 px-5 h-12 md:ml-5 w-48 mt-5 md:mt-0 focus:outline-none focus:shadow-outline-blue"
+          class="flex justify-center items-center text-primary font-medium bg-secondary rounded py-4 px-5 h-12 md:ml-5 w-48 mt-4 md:mt-0 focus:outline-none focus:shadow-outline-blue"
         >
           View Contest
           <svg
@@ -66,13 +71,20 @@
           Upcoming Contests
         </h1>
         <div class="flex flex-wrap">
-          <Card name="Mathcounts" color="blue" date="August 12, 2020" />
           <Card
-            name="Harvard MIT Tornument"
-            color="green"
-            date="August 20, 2020"
+            name="Contest Pug Hackathon"
+            date="August 25, 2020"
+            thumbnail="Join us on coding adventure at our Annual Contest Pug Hackathon! Win thousands in swag and prizes!"
+            :participants="120"
+            tag="Computer Science"
           />
-          <Card name="React Smackdown" color="indigo" date="August 12, 2020" />
+          <Card
+            name="Mathcounts"
+            date="September 8, 2020"
+            thumbnail="Join us on coding adventure at our Annual Contest Pug Hackathon! Win thousands in swag and prizes!"
+            :participants="260"
+            tag="Mathematics"
+          />
         </div>
       </div>
       <div class="block lg:hidden h-32"></div>
@@ -82,7 +94,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Card from '../components/dashboard/Card.vue';
+import Card from '../components/shared/ContestCard.vue';
 import Sidenav from '../components/navigation/Sidenav.vue';
 import Statistics from '../components/shared/Statistics.vue';
 import MobileSidenav from '../components/navigation/MobileSidenav.vue';
