@@ -180,7 +180,7 @@ export default Vue.extend({
   },
   setup(props, context) {
     const { User } = context.root.$FeathersVuex.api;
-    const { $store } = context.root;
+    const { $store, $router } = context.root;
 
     const errorMessage = ref('');
     const initialValues = reactive({ name: '', email: '', password: '' });
@@ -193,7 +193,7 @@ export default Vue.extend({
           .required('Name is a required field'),
         email: Yup.string()
           .email('Please enter a valid email address')
-          .max(500)
+          .max(254)
           .required('Email is a required field'),
         password: Yup.string()
           .min(8, 'Password must be at least 8 characters long')
@@ -215,6 +215,7 @@ export default Vue.extend({
           ...initialValues,
         });
         console.log(savedUser);
+        $router.push('/dashboard');
       } catch (error) {
         errorMessage.value = 'User already exists!';
       }

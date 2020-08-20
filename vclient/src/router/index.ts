@@ -14,6 +14,15 @@ const redirectOnAuth = async (_from: any, _to: any, next: any) => {
   }
 };
 
+const redirectOnNotAuth = async (_from: any, _to: any, next: any) => {
+  try {
+    await store.dispatch('auth/authenticate');
+    next();
+  } catch (error) {
+    next('/login');
+  }
+};
+
 const routes: Array<RouteConfig> = [
   {
     path: '/',
@@ -37,16 +46,19 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
+    beforeEnter: redirectOnNotAuth,
   },
   {
     path: '/contests',
     name: 'Contests',
     component: () => import('../views/Contests.vue'),
+    beforeEnter: redirectOnNotAuth,
   },
   {
     path: '/actions/create',
     name: 'Create',
     component: () => import('../views/actions/Create.vue'),
+    beforeEnter: redirectOnNotAuth,
   },
   {
     path: '*',

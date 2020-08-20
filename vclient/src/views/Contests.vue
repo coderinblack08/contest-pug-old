@@ -12,7 +12,7 @@
         <router-link
           to="/actions/create"
           tag="button"
-          class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none focus:shadow-outline-blue bg-gray-100 border border-gray-200 py-3 px-5 text-gray-600 font-medium"
+          class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none focus:shadow-outline-blue bg-white shadow py-3 px-5 text-gray-600 font-medium"
         >
           <svg
             fill="none"

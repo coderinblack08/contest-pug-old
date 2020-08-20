@@ -150,7 +150,7 @@ export default Vue.extend({
   },
   setup(props, context) {
     const { User } = context.root.$FeathersVuex.api;
-    const { $store } = context.root;
+    const { $store, $router } = context.root;
 
     const errorMessage = ref('');
     const initialValues = reactive({ email: '', password: '' });
@@ -159,7 +159,7 @@ export default Vue.extend({
       const userSchema = Yup.object().shape({
         email: Yup.string()
           .email('Please enter a valid email address')
-          .max(500)
+          .max(254)
           .required('Email is a required field'),
         password: Yup.string()
           .min(8, 'Password must be at least 8 characters long')
@@ -181,7 +181,9 @@ export default Vue.extend({
         })
         .catch(error => {
           errorMessage.value = 'User Credentials Invalid!';
+          return;
         });
+      $router.push('/dashboard');
     };
 
     const handleSubmit = async () => {
