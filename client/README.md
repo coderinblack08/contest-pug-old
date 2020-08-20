@@ -1,24 +1,29 @@
-# Contest Pug Next.js Frontend
+# vclient2
 
-To contribute to this repo, please enter the following commands:
+## Project setup
+```
+npm install
+```
 
-- `git clone https://github.com/coderinblack08/contest-pug.git`
-- `cd client`
-- `yarn`
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-Packages used in this repo:
+### Compiles and minifies for production
+```
+npm run build
+```
 
-- Nextjs + Typescript
-- Feathers client + socket.io
-- Tailwind
-- Formik
+### Run your unit tests
+```
+npm run test:unit
+```
 
-Todos:
+### Lints and fixes files
+```
+npm run lint
+```
 
-- Add full figbird.d.ts file and contribute to the project
-- Refactor codebase (register, login, \_app.tsx, etc.)
-- Usecontext or proper state management?
-
-## Contributors
-
-Created with 💖 by Coderinblack
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
