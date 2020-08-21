@@ -580,12 +580,10 @@ import Sidenav from '../../components/navigation/Sidenav.vue';
 import Statistics from '../../components/shared/Statistics.vue';
 import MobileSidenav from '../../components/navigation/MobileSidenav.vue';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import { reactive, ref } from '@vue/composition-api';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 import * as Yup from 'yup';
-import Vue from 'vue';
-import init from '@feathersjs/authentication-client/lib';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Create',
   components: {
     Sidenav,
@@ -595,7 +593,6 @@ export default Vue.extend({
   },
   setup(props, context) {
     const { Contest } = context.root.$FeathersVuex.api;
-
     const tab = ref(1);
     const errorMessage = reactive({ errors: [] });
     const initialValues = reactive({
@@ -608,10 +605,10 @@ export default Vue.extend({
       hours: 0,
       minutes: 0,
       length: 0,
-      date: '',
+      date: null,
       private: false,
       leaderboard: true,
-    });
+    } as any);
 
     const validate = async () => {
       const contestSchema = Yup.object().shape({
@@ -656,8 +653,8 @@ export default Vue.extend({
         delete initialValues.minutes;
         const contestValues = {
           ...initialValues,
-          startDate: new Date(initialValues.date.start),
-          endDate: new Date(initialValues.date.end),
+          start_date: new Date(initialValues.date.start),
+          end_date: new Date(initialValues.date.end),
         };
         delete initialValues.date;
         console.log(contestValues);
@@ -668,7 +665,7 @@ export default Vue.extend({
     };
 
     const findError = (path: string) => {
-      return errorMessage.errors.find(error => error.path === path);
+      return errorMessage.errors.find((error: any) => error.path === path);
     };
 
     const handleSubmit = async () => {
