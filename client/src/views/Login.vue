@@ -138,12 +138,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import * as Yup from 'yup';
-import { ref, reactive } from '@vue/composition-api';
+import { defineComponent, ref, reactive } from '@vue/composition-api';
 import Navbar from '../components/navigation/Navbar.vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Login',
   components: {
     Navbar,

@@ -11,6 +11,7 @@ export default function (app: Application): Model<any> {
     {
       user_id: { type: Schema.Types.ObjectId, ref: 'users' },
       name: { type: String, max: 500, unique: true, required: true },
+      thumbnail: { type: String, max: 150, required: true },
       description: { type: String, max: 1e6, required: true },
       email: {
         type: String,
@@ -31,8 +32,8 @@ export default function (app: Application): Model<any> {
       },
       tag: { type: String, max: 100, required: true },
       length: { type: Number, max: Number.MAX_VALUE, required: true },
-      start_date: { type: Date, required: true },
-      end_date: { type: Date, required: true },
+      start_date: { type: String, required: true },
+      end_date: { type: String, required: true },
       // competitors: { type: Number, default: 0 }, use a populate function instead
       status: { type: Boolean, default: false },
       private: { type: Boolean, default: false },

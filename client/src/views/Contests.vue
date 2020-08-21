@@ -36,12 +36,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import Sidenav from '../components/navigation/Sidenav.vue';
 import Statistics from '../components/shared/Statistics.vue';
 import MobileSidenav from '../components/navigation/MobileSidenav.vue';
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Contests',
   components: {
     Sidenav,

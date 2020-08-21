@@ -168,12 +168,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import * as Yup from 'yup';
-import { reactive, ref } from '@vue/composition-api';
+import { defineComponent, reactive, ref } from '@vue/composition-api';
 import Navbar from '../components/navigation/Navbar.vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Register',
   components: {
     Navbar,

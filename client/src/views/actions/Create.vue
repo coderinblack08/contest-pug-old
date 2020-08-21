@@ -649,19 +649,21 @@ export default defineComponent({
       try {
         initialValues.length =
           Number(initialValues.hours * 60) + Number(initialValues.minutes);
-        delete initialValues.hours;
-        delete initialValues.minutes;
         const contestValues = {
           ...initialValues,
-          start_date: new Date(initialValues.date.start),
-          end_date: new Date(initialValues.date.end),
+          start_date: initialValues.date.start,
+          end_date: initialValues.date.end,
         };
-        delete initialValues.date;
+        delete contestValues.hours;
+        delete contestValues.minutes;
+        delete contestValues.date;
         console.log(contestValues);
-        const savedContest = await new Contest(initialValues).save();
+        const savedContest = await new Contest(contestValues).save();
         console.log(savedContest);
         // eslint-disable-next-line no-empty
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     const findError = (path: string) => {

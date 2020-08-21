@@ -7,10 +7,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { onMounted } from '@vue/composition-api';
+import { defineComponent, onMounted } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'App',
   setup(props, context) {
     const { $store } = context.root;

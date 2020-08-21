@@ -1,29 +1,19 @@
-# vclient2
+# Vue client for Contest Pug
 
-## Project setup
-```
-npm install
-```
+<img src="https://vuejs.org/images/logo.png" width="50px" />
+<img src="https://www.sigtarp.gov/SiteAssets/template/img/plus.svg" width="35px" style="margin: 0 1em;" />
+<img src="https://github.com/feathersjs-ecosystem/feathers-vuex/raw/master/service-logo.png" width="50px" />
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Getting Started
 
-### Compiles and minifies for production
-```
-npm run build
+``` bash
+git clone https://github.com/coderinblack08/contest-pug.git
+cd contest-pug/client
+yarn # installs dependencies
+yarn serve # listen on port 8080 
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Contribution ideas
+* [ ] 🔧🐛 Fix potential/current bugs
+* [ ] 🍝 Refactor broken/messy code
+* [ ] 📦 Slowly port code to Vue 3 after official release (code should stay the same since we use composition api)
