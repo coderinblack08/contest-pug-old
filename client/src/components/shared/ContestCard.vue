@@ -1,5 +1,9 @@
 <template>
-  <div class="max-w-md w-full shadow rounded-lg overflow-hidden mr-4 mb-4">
+  <router-link
+    tag="div"
+    :to="{ name: 'Contest', params: { id } }"
+    class="cursor-pointer max-w-md w-full shadow rounded-lg overflow-hidden mr-4 mb-4"
+  >
     <div class="bg-white border-b border-gray-200 p-6">
       <p class="text-md text-gray-600">{{ date }}</p>
       <h3 class="text-2xl font-bold text-gray-900">{{ name }}</h3>
@@ -62,7 +66,7 @@
         </svg>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -71,6 +75,7 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'ContestCard',
   props: {
+    id: String,
     name: String,
     thumbnail: String,
     date: String,

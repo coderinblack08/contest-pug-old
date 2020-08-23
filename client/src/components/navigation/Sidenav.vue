@@ -123,9 +123,9 @@
             User Settings
           </a>
         </router-link>
-        <router-link
-          to="/login"
-          class="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
+        <div
+          @click="logout"
+          class="cursor-pointer flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-700 hover:bg-gray-50 focus:outline-none focus:text-gray-900 focus:bg-gray-50 transition duration-150 ease-in-out"
         >
           <svg
             viewBox="0 0 20 20"
@@ -139,7 +139,7 @@
             ></path>
           </svg>
           Sign Out
-        </router-link>
+        </div>
       </div>
       <div
         class="flex items-center bg-gray-100 p-5 border-t border-r border-gray-200"
@@ -193,7 +193,8 @@ import { ref } from '@vue/composition-api';
 
 export default Vue.extend({
   name: 'Sidenav',
-  setup() {
+  setup(props, context) {
+    const { $store, $router } = context.root;
     const showDropdown = ref(false);
     const toggleDropdown = () => (showDropdown.value = !showDropdown.value);
     const converToHandle = (username: string) =>
@@ -202,7 +203,12 @@ export default Vue.extend({
         .trim()
         .split(' ')
         .join('');
+    const logout = async () => {
+      await $store.dispatch('auth/logout');
+      $router.push('/login');
+    };
     return {
+      logout,
       showDropdown,
       toggleDropdown,
       converToHandle,

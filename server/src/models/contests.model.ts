@@ -34,7 +34,6 @@ export default function (app: Application): Model<any> {
       length: { type: Number, max: Number.MAX_VALUE, required: true },
       start_date: { type: String, required: true },
       end_date: { type: String, required: true },
-      // competitors: { type: Number, default: 0 }, use a populate function instead
       status: { type: Boolean, default: false },
       private: { type: Boolean, default: false },
       leaderboard: { type: Boolean, default: true },

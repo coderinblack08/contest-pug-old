@@ -11,6 +11,7 @@
         </div>
         <button
           class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none focus:shadow-outline-blue bg-white shadow py-3 px-5 text-gray-600 font-medium"
+          @click="saveForm"
         >
           <svg
             fill="none"
@@ -580,7 +581,12 @@ import Sidenav from '../../components/navigation/Sidenav.vue';
 import Statistics from '../../components/shared/Statistics.vue';
 import MobileSidenav from '../../components/navigation/MobileSidenav.vue';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import { defineComponent, reactive, ref } from '@vue/composition-api';
+import {
+  defineComponent,
+  reactive,
+  ref,
+  onMounted,
+} from '@vue/composition-api';
 import * as Yup from 'yup';
 
 export default defineComponent({
@@ -609,6 +615,15 @@ export default defineComponent({
       private: false,
       leaderboard: true,
     } as any);
+
+    onMounted(() => {
+      const form = JSON.parse(localStorage.getItem('contest-form') as string);
+      if (form) {
+        for (const value in initialValues) {
+          initialValues[value] = form[value];
+        }
+      }
+    });
 
     const validate = async () => {
       const contestSchema = Yup.object().shape({
@@ -680,8 +695,12 @@ export default defineComponent({
       }
     };
 
+    const saveForm = () =>
+      localStorage.setItem('contest-form', JSON.stringify(initialValues));
+
     return {
       tab,
+      saveForm,
       findError,
       initialValues,
       handleSubmit,

@@ -214,7 +214,7 @@ export default defineComponent({
           ...initialValues,
         });
         console.log(savedUser);
-        $router.push('/dashboard');
+        // $router.push('/dashboard');
       } catch (error) {
         errorMessage.value = 'User already exists!';
       }

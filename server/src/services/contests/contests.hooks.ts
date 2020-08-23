@@ -17,7 +17,20 @@ const limitToUser = setField({
 export default {
   before: {
     all: [authenticate('jwt')],
-    find: [],
+    find: [
+      async (context: HookContext): Promise<any> => {
+        const query: any = context.params.query;
+        for (const field in query) {
+          if (query[field].$search && field.indexOf('$') == -1) {
+            query[field] = { $regex: new RegExp(query[field].$search, 'i') };
+          } else if (query[field].hasOwnProperty('$search')) {
+            delete query[field];
+          }
+        }
+        context.params.query = query;
+        return context;
+      },
+    ],
     get: [],
     create: [setUserId],
     update: [limitToUser],
@@ -43,21 +56,9 @@ export default {
         context.result.user = await context.app.service('users').get({
           _id: context.result.user_id,
         });
-        context.result.stars = await (
-          await context.app.service('stars').find({
-            paginate: false,
-            query: {
-              contest_id: context.result._id,
-            },
-          })
-        ).length;
-        context.result.is_stared = await context.app.service('stars').find({
-          paginate: false,
-          query: {
-            contest_id: context.result._id,
-            user_id: context.params.user._id,
-          },
-        })[0];
+        ['password', 'createdAt', 'updatedAt'].forEach(
+          (e) => delete context.result.user[e]
+        );
         return context;
       },
     ],

@@ -18,6 +18,8 @@ module.exports = {
       primary: '#1C63F2',
       secondary: '#E5EDFF',
 
+      link: '#3F83F8',
+
       black: '#000',
       white: '#fff',
 
@@ -742,7 +744,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/custom-forms'),
-    //   require('@tailwindcss/typography'),
+    require('@tailwindcss/typography'),
   ],
   corePlugins: {},
 };

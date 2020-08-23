@@ -55,9 +55,21 @@ const routes: Array<RouteConfig> = [
     beforeEnter: redirectOnNotAuth,
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue'),
+    beforeEnter: redirectOnNotAuth,
+  },
+  {
     path: '/actions/create',
     name: 'Create',
     component: () => import('../views/actions/Create.vue'),
+    beforeEnter: redirectOnNotAuth,
+  },
+  {
+    path: '/contest/:id',
+    name: 'Contest',
+    component: () => import('../views/contest/Contest.vue'),
     beforeEnter: redirectOnNotAuth,
   },
   {

@@ -37,23 +37,7 @@ export default {
     ],
     update: [limitToUser],
     patch: [limitToUser],
-    remove: [
-      limitToUser,
-      async (context: HookContext): Promise<any> => {
-        const { query = {} } = context.params;
-        const star = context.app.service('stars').find({
-          query: {
-            contest_id: query.contest_id,
-            user_id: context.params.user._id,
-          },
-        })[0];
-        console.log(star);
-
-        context.id = star._id;
-        console.log(context.id);
-        return context;
-      },
-    ],
+    remove: [limitToUser],
   },
 
   after: {

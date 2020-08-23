@@ -12,6 +12,7 @@
     "@feathersjs/authentication-client": "^4.5.8",
     "@feathersjs/feathers": "^4.5.8",
     "@feathersjs/socketio-client": "^4.5.8",
+    "@tailwindcss/typography": "^0.2.0",
     "@types/yup": "^0.29.5",
     "@vue/composition-api": "^1.0.0-beta.10",
     "core-js": "^3.6.5",
