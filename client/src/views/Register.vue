@@ -214,7 +214,7 @@ export default defineComponent({
           ...initialValues,
         });
         console.log(savedUser);
-        // $router.push('/dashboard');
+        $router.push('/dashboard');
       } catch (error) {
         errorMessage.value = 'User already exists!';
       }
@@ -237,3 +237,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+</style>

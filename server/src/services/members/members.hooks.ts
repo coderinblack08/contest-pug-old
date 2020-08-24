@@ -1,8 +1,8 @@
-import { HookContext } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
+import { HookContext } from '@feathersjs/feathers';
 import { setField } from 'feathers-authentication-hooks';
-import mongoose from 'mongoose';
 import { ObjectID } from 'mongodb';
+import mongoose from 'mongoose';
 
 const { authenticate } = authentication.hooks;
 
@@ -25,12 +25,12 @@ export default {
       setUserId,
       async (context: HookContext): Promise<any> => {
         if (
-          await mongoose.model('stars').findOne({
+          await mongoose.model('members').findOne({
             user_id: context.data.user_id,
             contest_id: context.data.contest_id,
           })
         ) {
-          throw new Error('⭐️ You have already stared this contest!');
+          throw new Error('❌ You have already joined this contest!');
         } else {
           return context;
         }

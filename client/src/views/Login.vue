@@ -182,7 +182,7 @@ export default defineComponent({
           errorMessage.value = 'User Credentials Invalid!';
           return;
         });
-      // $router.push('/dashboard');
+      $router.push('/dashboard');
     };
 
     const handleSubmit = async () => {
@@ -203,4 +203,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+</style>

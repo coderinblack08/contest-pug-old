@@ -27,7 +27,7 @@
       to="/search"
       :class="[
         'cursor-pointer p-3 md:py-3 md:px-8 flex items-center justify-center rounded',
-        this.$route.path === '/search' ? 'shadow bg-gray-50' : '',
+        this.$route.path === '/search' ? 'shadow bg-white' : '',
       ]"
     >
       <svg
@@ -48,7 +48,7 @@
       to="/contests"
       :class="[
         'cursor-pointer p-3 md:py-3 md:px-8 flex items-center justify-center rounded',
-        this.$route.path === 'dashboard' ? 'shadow bg-gray-50' : '',
+        this.$route.path === '/contests' ? 'shadow bg-white' : '',
       ]"
     >
       <svg
@@ -69,7 +69,7 @@
       to="/scores"
       :class="[
         'cursor-pointer p-3 md:py-3 md:px-8 flex items-center justify-center rounded',
-        this.$route.path === 'dashboard' ? 'shadow bg-gray-50' : '',
+        this.$route.path === '/scores' ? 'shadow bg-white' : '',
       ]"
     >
       <svg

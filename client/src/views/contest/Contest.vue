@@ -61,6 +61,7 @@
                 </button>
                 <button
                   type="button"
+                  @click="join"
                   class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-primary py-3 px-5 text-white font-medium"
                 >
                   <svg
@@ -72,7 +73,8 @@
                       d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"
                     ></path>
                   </svg>
-                  Join Contest
+                  <span v-if="joined.data[0]">Leave Contest</span>
+                  <span v-else>Join Contest</span>
                 </button>
               </div>
             </div>
@@ -110,7 +112,11 @@
                       d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                     ></path>
                   </svg>
-                  <a class="text-link font-medium">
+                  <a
+                    class="text-link font-medium"
+                    target="_blank"
+                    :href="contest.website"
+                  >
                     {{ contest.website }}
                   </a>
                 </div>
@@ -152,7 +158,7 @@
 <script lang="ts">
 import Sidenav from '../../components/navigation/Sidenav.vue';
 import MobileSidenav from '../../components/navigation/MobileSidenav.vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, reactive, onMounted } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Contest',
@@ -161,6 +167,15 @@ export default defineComponent({
     MobileSidenav,
   },
   setup(props, { root: { $store, $route } }) {
+    const joined = reactive({ data: [] } as any);
+    onMounted(async () => {
+      joined.data = await (
+        await $store.dispatch('members/find', {
+          contest_id: $route.params.id,
+          user_id: $store.state.auth.user._id,
+        })
+      ).data;
+    });
     const star = async () => {
       const getStar = await $store.dispatch('stars/find', {
         query: {
@@ -176,7 +191,16 @@ export default defineComponent({
         await $store.dispatch('stars/remove', getStar.data[0]._id);
       }
     };
-    return { star };
+    const join = async () => {
+      try {
+        await $store.dispatch('members/create', {
+          contest_id: $route.params.id,
+        });
+      } catch (error) {
+        await $store.dispatch('members/remove', joined.data[0]._id);
+      }
+    };
+    return { joined, join, star };
   },
 });
 </script>
