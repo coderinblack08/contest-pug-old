@@ -44,12 +44,13 @@
           </h1>
           <p class="text-secondary text-md md:text-lg font-medium">
             Don't forget to study for you upcoming competition
-            <span v-if="contests[0]"> {{ contests[0].value.name }}! </span>
+            <span v-if="firstContest.data.length > 0">
+              {{ firstContest.data.name }}!
+            </span>
           </p>
         </div>
         <router-link
-          v-if="contests[0]"
-          :to="{ name: 'Contest', params: { id: contests[0].value._id } }"
+          :to="{ name: 'Contest', params: { id: firstContest.data._id } }"
           tag="button"
           class="flex justify-center items-center text-primary font-medium bg-secondary rounded py-4 px-5 h-12 md:ml-5 w-48 mt-4 md:mt-0 focus:outline-none focus:shadow-outline-blue"
         >
@@ -75,15 +76,25 @@
           Upcoming Contests
         </h1>
         <div class="flex flex-wrap">
-          <div v-for="(contest, key) in contests" :key="key">
-            <Card
-              :id="contest.value._id"
-              :name="contest.value.name"
-              :date="formatDate(contest.value.start_date)"
-              :thumbnail="contest.value.thumbnail"
-              :participants="120"
-              :tag="contest.value.tag"
-            />
+          <div v-for="(member, key) in members" :key="key">
+            <FeathersVuexGet
+              service="contests"
+              :id="member.contest_id"
+              :watch="[member.contest_id]"
+            >
+              <div slot-scope="{ item: contest }">
+                {{ setFirst(contest, key) }}
+                <Card
+                  v-if="contest"
+                  :id="contest._id"
+                  :name="contest.name"
+                  :date="formatDate(contest.start_date)"
+                  :thumbnail="contest.thumbnail"
+                  :participants="120"
+                  :tag="contest.tag"
+                />
+              </div>
+            </FeathersVuexGet>
           </div>
         </div>
       </div>
@@ -97,8 +108,8 @@ import Card from '../components/shared/ContestCard.vue';
 import Sidenav from '../components/navigation/Sidenav.vue';
 import Statistics from '../components/shared/Statistics.vue';
 import MobileSidenav from '../components/navigation/MobileSidenav.vue';
-import { defineComponent, computed } from '@vue/composition-api';
-import { useFind, useGet } from 'feathers-vuex';
+import { defineComponent, computed, reactive } from '@vue/composition-api';
+import { useFind } from 'feathers-vuex';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -109,7 +120,8 @@ export default defineComponent({
     MobileSidenav,
   },
   setup(props, { root: { $FeathersVuex, $route, $store } }) {
-    const { Member, Contest } = $FeathersVuex.api;
+    const { Member } = $FeathersVuex.api;
+    const firstContest = reactive({ data: [] });
 
     const membersParams = computed(() => {
       return {
@@ -118,22 +130,22 @@ export default defineComponent({
       };
     });
 
-    const membersData = useFind({ model: Member, params: membersParams }).items;
-
-    const contests = membersData.value.map((member: any) => {
-      return useGet({
-        model: Contest,
-        id: member.contest_id,
-      }).item;
-    });
+    const members = useFind({ model: Member, params: membersParams }).items;
 
     const formatDate = (date: Date) => {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(date).toLocaleDateString('en', options);
     };
+
+    const setFirst = (contest: any, id: number) => {
+      firstContest.data = id ? [] : contest;
+    };
+
     return {
-      contests,
+      members,
+      setFirst,
       formatDate,
+      firstContest,
     };
   },
 });

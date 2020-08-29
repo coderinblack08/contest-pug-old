@@ -73,6 +73,12 @@ const routes: Array<RouteConfig> = [
     beforeEnter: redirectOnNotAuth,
   },
   {
+    path: '/leaderboard/:id',
+    name: 'Leaderboard',
+    component: () => import('../views/contest/Leaderboard.vue'),
+    beforeEnter: redirectOnNotAuth,
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import('../views/Error.vue'),

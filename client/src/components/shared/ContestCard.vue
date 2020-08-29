@@ -2,7 +2,7 @@
   <router-link
     tag="div"
     :to="{ name: 'Contest', params: { id } }"
-    class="cursor-pointer max-w-md w-full shadow rounded-lg overflow-hidden mr-4 mb-4"
+    class="transform transition ease-in duration-150 hover:-translate-y-1 cursor-pointer max-w-md w-full shadow hover:shadow-md rounded-lg overflow-hidden mr-4 mb-4"
   >
     <div class="bg-white border-b border-gray-200 p-6">
       <p class="text-md text-gray-600">{{ date }}</p>
@@ -70,9 +70,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ContestCard',
   props: {
     id: String,

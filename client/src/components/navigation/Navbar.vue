@@ -57,10 +57,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { ref } from '@vue/composition-api';
+import { ref, defineComponent } from '@vue/composition-api';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'Navbar',
   setup() {
     const showNavbar = ref(false);
