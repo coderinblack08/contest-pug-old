@@ -48,9 +48,7 @@
           {{ participants }} Participants
         </div>
       </div>
-      <div
-        class="flex items-center justify-center bg-white cursor-pointer text-gray-600"
-      >
+      <div class="cursor-pointer text-gray-600">
         <svg
           fill="none"
           viewBox="0 0 24 24"

@@ -15,4 +15,4 @@ COPY . .
 
 ENTRYPOINT ["sh", "./entrypoint.sh"]
 
-CMD ["pm2-runtime", "start", "ecosystem.config.js", "--only=api" ]
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--watch"]

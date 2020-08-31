@@ -18,7 +18,7 @@ export default {
   before: {
     all: [authenticate('jwt')],
     find: [
-      async (context: HookContext): Promise<any> => {
+      async (context: HookContext): Promise<HookContext> => {
         const query: any = context.params.query;
         for (const field in query) {
           if (query[field].$search && field.indexOf('$') == -1) {
@@ -41,7 +41,7 @@ export default {
   after: {
     all: [],
     find: [
-      async (context: HookContext): Promise<any> => {
+      async (context: HookContext): Promise<HookContext> => {
         const contests = context.result.data;
         context.result.data = contests.map((contest: any) => {
           if (!contest.private) {
@@ -52,7 +52,7 @@ export default {
       },
     ],
     get: [
-      async (context: HookContext): Promise<any> => {
+      async (context: HookContext): Promise<HookContext> => {
         context.result.user = await context.app.service('users').get({
           _id: context.result.user_id,
         });

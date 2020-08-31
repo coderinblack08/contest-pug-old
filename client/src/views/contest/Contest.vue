@@ -17,21 +17,65 @@
               <div class="bg-white shadow w-full p-5 rounded-md">
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg font-semibold">Description</h3>
-                  <div class="cursor-pointer">
+                  <div class="relative inline-block text-left">
                     <svg
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      class="pencil-alt w-5 h-5"
+                      class="dots-vertical w-5 h-5 cursor-pointer"
+                      @click="showDropdown = !showDropdown"
                     >
                       <path
-                        d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
-                      ></path>
-                      <path
-                        fill-rule="evenodd"
-                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                        clip-rule="evenodd"
+                        d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
                       ></path>
                     </svg>
+                    <div
+                      class="origin-top-right absolute right-0 mt-4 w-48 rounded-md shadow-lg"
+                      v-if="showDropdown"
+                    >
+                      <div class="rounded-md bg-white shadow-xs">
+                        <div
+                          class="py-1"
+                          role="menu"
+                          aria-orientation="vertical"
+                          aria-labelledby="options-menu"
+                        >
+                          <a
+                            href="#"
+                            class="flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            role="menuitem"
+                          >
+                            <!-- <svg
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              class="pencil w-4 h-4 mr-2"
+                            >
+                              <path
+                                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                              ></path>
+                            </svg> -->
+                            Edit Homepage
+                          </a>
+                          <a
+                            href="#"
+                            class="flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            role="menuitem"
+                          >
+                            <!-- <svg
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              class="cog w-4 h-4 mr-2"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                clip-rule="evenodd"
+                              ></path>
+                            </svg> -->
+                            Contest Settings
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <article class="prose xl:prose pt-2">
@@ -108,7 +152,7 @@
 import Sidenav from '../../components/navigation/Sidenav.vue';
 import ContestNavbar from '../../components/navigation/ContestNavbar.vue';
 import MobileSidenav from '../../components/navigation/MobileSidenav.vue';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'Contest',
@@ -116,6 +160,10 @@ export default defineComponent({
     Sidenav,
     ContestNavbar,
     MobileSidenav,
+  },
+  setup() {
+    const showDropdown = ref(false);
+    return { showDropdown };
   },
 });
 </script>

@@ -33,7 +33,8 @@
         <Statistics />
       </header>
       <div
-        class="flex flex-col md:flex-row justify-between md:items-center bg-primary m-5 md:m-10 rounded-md py-6 px-8 shadow"
+        class="flex flex-col md:flex-row justify-between md:items-center bg-primary m-5 md:m-10 md:mb-0 rounded-md py-6 px-8 shadow"
+        v-if="firstContest.data.length > 0"
       >
         <div>
           <h1 class="text-white font-semibold text-2xl">
@@ -44,9 +45,7 @@
           </h1>
           <p class="text-secondary text-md md:text-lg font-medium">
             Don't forget to study for you upcoming competition
-            <span v-if="firstContest.data.length > 0">
-              {{ firstContest.data.name }}!
-            </span>
+            <span> {{ firstContest.data.name }}! </span>
           </p>
         </div>
         <router-link
@@ -69,12 +68,19 @@
           </svg>
         </router-link>
       </div>
-      <div class="px-10 py-3">
+      <div class="p-10">
         <h1
-          class="flex items-center text-gray-800 font-extrabold text-3xl leading-none mb-8"
+          :class="[
+            'flex items-center text-gray-800 font-extrabold text-3xl leading-none',
+            firstContest.data.length ? 'mb-8' : 'mb-3',
+          ]"
         >
           Upcoming Contests
         </h1>
+        <div v-if="!firstContest.data.length" class="text-lg">
+          It seems you aren't signed up for any contests yet.
+          <router-link to="/faq" class="text-link">Need Help?</router-link>
+        </div>
         <div class="flex flex-wrap">
           <div v-for="(member, key) in members" :key="key">
             <FeathersVuexGet
@@ -83,7 +89,7 @@
               :watch="[member.contest_id]"
             >
               <div slot-scope="{ item: contest }">
-                {{ setFirst(contest, key) }}
+                {{ key - 1 ? '' : setFirst(contest) }}
                 <Card
                   v-if="contest"
                   :id="contest._id"
@@ -137,8 +143,8 @@ export default defineComponent({
       return new Date(date).toLocaleDateString('en', options);
     };
 
-    const setFirst = (contest: any, id: number) => {
-      firstContest.data = id ? [] : contest;
+    const setFirst = (contest: any) => {
+      firstContest.data = contest;
     };
 
     return {

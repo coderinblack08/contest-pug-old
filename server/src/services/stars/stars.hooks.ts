@@ -2,7 +2,7 @@ import { HookContext } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
 import { setField } from 'feathers-authentication-hooks';
 import mongoose from 'mongoose';
-import { ObjectID } from 'mongodb';
+import convertObjectId from '../../hooks/convert-object-id';
 
 const { authenticate } = authentication.hooks;
 
@@ -23,7 +23,7 @@ export default {
     get: [],
     create: [
       setUserId,
-      async (context: HookContext): Promise<any> => {
+      async (context: HookContext): Promise<HookContext> => {
         if (
           await mongoose.model('stars').findOne({
             user_id: context.data.user_id,
@@ -39,10 +39,8 @@ export default {
     update: [limitToUser],
     patch: [limitToUser],
     remove: [
-      limitToUser,
-      async (context: any): Promise<any> => {
-        context.id = new ObjectID(context.id);
-        console.log(context);
+      convertObjectId(),
+      async (context: HookContext): Promise<HookContext> => {
         return context;
       },
     ],
