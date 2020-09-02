@@ -33,41 +33,84 @@
             Customize settings
           </router-link>
         </div>
+        <div v-if="!contests.contests.length" class="text-gray-800 text-md">
+          Click new question to get started creating your amazing contest!
+        </div>
         <div v-for="(contest, key) in contests.contests" :key="key">
-          <div class="bg-white shadow w-full p-5 rounded-md">
-            <div class="flex justify-between">
-              <div class="text-gray-600" v-if="contest.short_answer">
-                Short answer response
-              </div>
+          <div class="flex flex-row-reverse space-x-reverse space-x-5">
+            <div
+              class="flex flex-col space-y-5 bg-white shadow px-4 py-5 rounded-md text-gray-700"
+            >
               <div @click="deleteProblem(key)">
                 <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  class="x w-5 h-5 text-gray-600 cursor-pointer"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="trash w-5 h-5"
                 >
                   <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="duplicate w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                   ></path>
                 </svg>
               </div>
             </div>
-            <textarea
-              class="w-full resize-none text-gray-900 mt-1 focus:outline-none"
-              v-model="contest.question"
-            >
-            </textarea>
-            <div class="mt-5 space-y-2">
-              <input
-                class="max-w-md xl:max-w-lg mt-2 shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-                placeholder="Question Answer"
-                v-model="contests.answers[key].answer"
-                v-if="contest.short_answer"
-                type="text"
-                name="answer"
-                id="answer"
-              />
+            <div class="bg-white shadow w-full p-5 rounded-md">
+              <div class="flex justify-between">
+                <div
+                  class="flex items-center text-gray-600"
+                  v-if="contest.short_answer"
+                >
+                  Short answer question
+                </div>
+                <div class="flex items-center text-gray-600">
+                  <input
+                    type="text"
+                    name="points"
+                    id="points"
+                    :value="contest.points"
+                    class="w-5 p-0 focus:outline-none"
+                    @input="
+                      e =>
+                        e.target.value ? (contest.points = +e.target.value) : 0
+                    "
+                  />
+                  Points
+                </div>
+              </div>
+              <textarea
+                class="w-full resize-none text-gray-900 mt-1 focus:outline-none"
+                v-model="contest.question"
+                placeholder="Question Statement"
+              >
+              </textarea>
+              <div class="mt-5 space-y-2" v-if="contest.short_answer">
+                <input
+                  class="max-w-md xl:max-w-lg mt-2 shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                  placeholder="Question Answer"
+                  v-model="contests.answers[key].answer"
+                  type="text"
+                  name="answer"
+                  id="answer"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -174,7 +217,7 @@ export default defineComponent({
       ],
       answers: [
         {
-          answer: '2',
+          answer: 'Lorem Ipsum',
         },
       ],
     });

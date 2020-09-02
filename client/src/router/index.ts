@@ -31,6 +31,11 @@ const routes: Array<RouteConfig> = [
     beforeEnter: redirectOnAuth,
   },
   {
+    path: '/team',
+    name: 'Team',
+    component: () => import('../views/Team.vue'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login.vue'),
