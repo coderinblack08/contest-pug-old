@@ -21,7 +21,7 @@
                     <svg
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      class="dots-vertical w-5 h-5 cursor-pointer"
+                      class="dots-vertical w-5 h-5 cursor-pointer text-gray-600"
                       @click="showDropdown = !showDropdown"
                     >
                       <path
@@ -84,54 +84,56 @@
                   </p>
                 </article>
               </div>
-              <div
-                class="bg-white max-w-xs w-full shadow rounded-lg border border-gray-200 overflow-hidden p-5"
-              >
-                <h1 class="text-xl font-bold">{{ contest.name }}</h1>
-                <p class="text-md mt-1">
-                  {{ contest.thumbnail }}
-                </p>
-                <div class="flex items-center space-x-2 mt-3 text-gray-700">
-                  <svg
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    class="link w-5 h-5"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                    ></path>
-                  </svg>
-                  <a
-                    class="text-link font-medium"
-                    target="_blank"
-                    :href="contest.website"
-                  >
-                    {{ contest.website }}
-                  </a>
-                </div>
-                <div class="flex items-center space-x-2 mt-2 text-gray-700">
-                  <div>
+              <div class="flex flex-col space-y-5 max-w-xs w-full">
+                <div
+                  class="bg-white shadow rounded-lg border border-gray-200 overflow-hidden p-5"
+                >
+                  <h1 class="text-xl font-bold">{{ contest.name }}</h1>
+                  <p class="text-md mt-1">
+                    {{ contest.thumbnail }}
+                  </p>
+                  <div class="flex items-center space-x-2 mt-3 text-gray-700">
                     <svg
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      class="mail w-5 h-5"
+                      class="link w-5 h-5"
                     >
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                       ></path>
                     </svg>
+                    <a
+                      class="text-link font-medium"
+                      target="_blank"
+                      :href="contest.website"
+                    >
+                      {{ contest.website }}
+                    </a>
                   </div>
-                  <a class="font-medium" :href="`mailto:${contest.email}`">
-                    {{ contest.email }}
-                  </a>
+                  <div class="flex items-center space-x-2 mt-2 text-gray-700">
+                    <div>
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        class="mail w-5 h-5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <a class="font-medium" :href="`mailto:${contest.email}`">
+                      {{ contest.email }}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

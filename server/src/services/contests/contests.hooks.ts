@@ -62,7 +62,20 @@ export default {
         return context;
       },
     ],
-    create: [],
+    create: [
+      async (context: HookContext): Promise<HookContext> => {
+        console.log(context);
+        try {
+          await context.app.service('members').create({
+            user_id: context.params.user._id,
+            contest_id: context.result._id,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+        return context;
+      },
+    ],
     update: [],
     patch: [],
     remove: [],

@@ -1,8 +1,8 @@
 import { HookContext } from '@feathersjs/feathers';
 import * as authentication from '@feathersjs/authentication';
 import { setField } from 'feathers-authentication-hooks';
-import mongoose from 'mongoose';
-import convertObjectId from '../../hooks/convert-object-id';
+import { model } from 'mongoose';
+import limitToUserRemove from '../../hooks/limit-to-user-remove';
 
 const { authenticate } = authentication.hooks;
 
@@ -25,7 +25,7 @@ export default {
       setUserId,
       async (context: HookContext): Promise<HookContext> => {
         if (
-          await mongoose.model('stars').findOne({
+          await model('stars').findOne({
             user_id: context.data.user_id,
             contest_id: context.data.contest_id,
           })
@@ -38,12 +38,7 @@ export default {
     ],
     update: [limitToUser],
     patch: [limitToUser],
-    remove: [
-      convertObjectId(),
-      async (context: HookContext): Promise<HookContext> => {
-        return context;
-      },
-    ],
+    remove: [limitToUserRemove('stars')],
   },
 
   after: {

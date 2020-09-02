@@ -34,7 +34,7 @@
       </header>
       <div
         class="flex flex-col md:flex-row justify-between md:items-center bg-primary m-5 md:m-10 md:mb-0 rounded-md py-6 px-8 shadow"
-        v-if="firstContest.data.length > 0"
+        v-if="firstContest.data.length"
       >
         <div>
           <h1 class="text-white font-semibold text-2xl">
@@ -89,7 +89,7 @@
               :watch="[member.contest_id]"
             >
               <div slot-scope="{ item: contest }">
-                {{ key - 1 ? '' : setFirst(contest) }}
+                {{ key - 1 ? setFirst(contest) : '' }}
                 <Card
                   v-if="contest"
                   :id="contest._id"

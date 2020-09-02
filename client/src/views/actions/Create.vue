@@ -637,18 +637,18 @@ export default defineComponent({
           .email('Pleae enter a valid email address')
           .required('Email is a required field'),
         thumbnail: Yup.string()
-          .max(100, 'Thumbnail is too long')
+          .max(150, 'Thumbnail is too long')
           .required('Thumbnail is a requied field'),
         description: Yup.string()
           .max(1e6, 'Description exceeded the 100,000 character limit')
           .required('Description is a required field'),
         tag: Yup.string().required('Tag is a required field'),
-        hours: Yup.number().required('Contest Hours is a required field'),
-        minutes: Yup.number().required('Contest Minutes is a required field'),
+        hours: Yup.number(),
+        minutes: Yup.number(),
         // eslint-disable-next-line @typescript-eslint/camelcase
         date: Yup.string().required('Date is a required field'),
-        private: Yup.boolean().required(),
-        leaderboard: Yup.boolean().required(),
+        private: Yup.boolean(),
+        leaderboard: Yup.boolean(),
       });
       try {
         await contestSchema.validate(initialValues, {
@@ -663,7 +663,8 @@ export default defineComponent({
     const createContest = async () => {
       try {
         initialValues.length =
-          Number(initialValues.hours * 60) + Number(initialValues.minutes);
+          Number(initialValues.hours ? initialValues.hours * 60 : 0) +
+          Number(initialValues.minutes ? initialValues.minutes : 0);
         const contestValues = {
           ...initialValues,
           start_date: initialValues.date.start,
@@ -686,6 +687,8 @@ export default defineComponent({
     };
 
     const handleSubmit = async () => {
+      console.log(errorMessage);
+
       const validationResults = await validate();
       if (!validationResults) {
         errorMessage.errors = [];

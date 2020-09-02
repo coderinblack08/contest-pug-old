@@ -10726,6 +10726,11 @@ vue-cli-plugin-tailwind@~1.4.2:
     "@fullhuman/postcss-purgecss" "^2.3.0"
     tailwindcss "^1.6.2"
 
+vue-click-outside@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vue-click-outside/-/vue-click-outside-1.1.0.tgz#48b7680b518923e701643cccb3e165854aad99eb"
+  integrity sha512-pNyvAA9mRXJwPHlHJyjMb4IONSc7khS5lxGcMyE2EIKgNMAO279PWM9Hyq0d5J4FkiSRdmFLwnbjDd5UtPizHQ==
+
 vue-ctk-date-time-picker@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/vue-ctk-date-time-picker/-/vue-ctk-date-time-picker-2.5.0.tgz#22d6e4b4199326bfb0bf0b869e7450f4c16a6239"

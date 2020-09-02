@@ -4,8 +4,9 @@
   >
     <div class="flex flex-col xl:flex-row justify-between w-full items-center">
       <nav
-        class="font-medium inline-flex space-x-10 items-center text-gray-600 text-md sm:text-lg"
+        class="font-medium inline-flex space-x-10 items-center text-gray-600 text-md sm:text-lg select-none"
       >
+        <AdminNavbar />
         <router-link
           :to="{ name: 'Contest', params: { id: $route.params.id } }"
           :class="[
@@ -88,43 +89,56 @@
             </button>
           </div>
         </FeathersVuexFind>
-        <button
-          type="button"
-          @click="join"
-          class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-primary py-3 px-5 text-white font-medium"
+        <FeathersVuexFind
+          service="contests"
+          :query="{ _id: $route.params.id }"
+          watch="query"
         >
-          <svg
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            class="view-grid-add w-4 h-4 mr-2"
-          >
-            <path
-              d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"
-            ></path>
-          </svg>
-          <FeathersVuexFind
-            service="members"
-            :query="{
-              contest_id: $route.params.id,
-              user_id: $store.state.auth.user._id,
-            }"
-            watch="query"
-          >
-            <div slot-scope="{ items: member }">
-              <span v-if="member.length > 0">Leave Contest</span>
-              <span v-else>Join Contest</span>
-            </div>
-          </FeathersVuexFind>
-        </button>
+          <div slot-scope="{ items: contest }">
+            <button
+              type="button"
+              @click="join"
+              v-if="contest[0].user_id !== $store.state.auth.user._id"
+              class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-primary py-3 px-5 text-white font-medium"
+            >
+              <svg
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                class="view-grid-add w-4 h-4 mr-2"
+              >
+                <path
+                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"
+                ></path>
+              </svg>
+              <FeathersVuexFind
+                service="members"
+                :query="{
+                  contest_id: $route.params.id,
+                  user_id: $store.state.auth.user._id,
+                }"
+                watch="query"
+              >
+                <div slot-scope="{ items: member }">
+                  <span v-if="member.length > 0">Leave Contest</span>
+                  <span v-else>Join Contest</span>
+                </div>
+              </FeathersVuexFind>
+            </button>
+          </div>
+        </FeathersVuexFind>
       </div>
     </div>
   </header>
 </template>
 
 <script lang="ts">
+import AdminNavbar from '../../components/navigation/AdminNavbar.vue';
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
+  components: {
+    AdminNavbar,
+  },
   setup(props, { root: { $store, $route } }) {
     const star = async () => {
       const getStar = await $store.dispatch('stars/find', {

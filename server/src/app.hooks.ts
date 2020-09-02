@@ -1,5 +1,4 @@
-import convertObjectId from './hooks/convert-object-id';// Application hooks that run for every service
-// Don't remove this comment. It's needed to format import lines nicely.
+import convertObjectId from './hooks/convert-object-id';
 
 export default {
   before: {
@@ -9,7 +8,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: [convertObjectId()]
+    remove: [convertObjectId()],
   },
 
   after: {
@@ -19,7 +18,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -29,6 +28,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

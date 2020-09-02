@@ -1,9 +1,8 @@
 import * as authentication from '@feathersjs/authentication';
 import { HookContext } from '@feathersjs/feathers';
 import { setField } from 'feathers-authentication-hooks';
-import { ObjectID } from 'mongodb';
 import mongoose from 'mongoose';
-import convertObjectId from '../../hooks/convert-object-id';
+import limitToUserRemove from '../../hooks/limit-to-user-remove';
 
 const { authenticate } = authentication.hooks;
 
@@ -39,7 +38,7 @@ export default {
     ],
     update: [limitToUser],
     patch: [limitToUser],
-    remove: [convertObjectId()],
+    remove: [limitToUserRemove('members')],
   },
 
   after: {
