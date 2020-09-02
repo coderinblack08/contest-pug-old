@@ -3,7 +3,24 @@
     <Navbar />
     <div class="p-5 md:p-10">
       <div class="mx-auto text-center break-words max-w-2xl mb-5">
-        <h1 class="text-4xl font-black">Meet our leadership</h1>
+        <h1 class="flex items-center justify-center mb-2 text-4xl font-black">
+          <div class="bg-primary rounded-lg mr-4 p-3 text-white">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              class="users w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+          </div>
+          Meet our leadership
+        </h1>
         <p class="text-xl text-gray-700">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga nihil
           atque excepturi eaque itaque debitis quia maxime.
