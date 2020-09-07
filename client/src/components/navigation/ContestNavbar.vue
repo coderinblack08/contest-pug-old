@@ -98,7 +98,9 @@
             <button
               type="button"
               @click="join"
-              v-if="contest[0].user_id !== $store.state.auth.user._id"
+              v-if="
+                contest[0] && contest[0].user_id !== $store.state.auth.user._id
+              "
               class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none shadow bg-primary py-3 px-5 text-white font-medium"
             >
               <svg

@@ -81,28 +81,38 @@
           It seems you aren't signed up for any contests yet.
           <router-link to="/faq" class="text-link">Need Help?</router-link>
         </div>
-        <div class="flex flex-wrap">
-          <div v-for="(member, key) in members" :key="key">
-            <FeathersVuexGet
-              service="contests"
-              :id="member.contest_id"
-              :watch="[member.contest_id]"
-            >
-              <div slot-scope="{ item: contest }">
-                {{ key - 1 ? setFirst(contest) : '' }}
-                <Card
-                  v-if="contest"
-                  :id="contest._id"
-                  :name="contest.name"
-                  :date="formatDate(contest.start_date)"
-                  :thumbnail="contest.thumbnail"
-                  :participants="120"
-                  :tag="contest.tag"
-                />
+        <FeathersVuexFind
+          service="members"
+          :query="{
+            user_id: $store.state.auth.user._id,
+          }"
+          watch="query"
+        >
+          <div slot-scope="{ items: members }">
+            <div class="flex flex-wrap">
+              <div v-for="(member, key) in members" :key="key">
+                <FeathersVuexGet
+                  service="contests"
+                  :id="member.contest_id"
+                  :watch="[member.contest_id]"
+                >
+                  <div slot-scope="{ item: contest }">
+                    {{ key - 1 ? setFirst(contest) : '' }}
+                    <Card
+                      v-if="contest"
+                      :id="contest._id"
+                      :name="contest.name"
+                      :date="formatDate(contest.start_date)"
+                      :thumbnail="contest.thumbnail"
+                      :participants="120"
+                      :tag="contest.tag"
+                    />
+                  </div>
+                </FeathersVuexGet>
               </div>
-            </FeathersVuexGet>
+            </div>
           </div>
-        </div>
+        </FeathersVuexFind>
       </div>
     </div>
     <div class="block lg:hidden h-32"></div>
@@ -125,19 +135,8 @@ export default defineComponent({
     Statistics,
     MobileSidenav,
   },
-  setup(props, { root: { $FeathersVuex, $route, $store } }) {
-    const { Member } = $FeathersVuex.api;
+  setup(props, { root: { $route, $store } }) {
     const firstContest = reactive({ data: [] });
-
-    const membersParams = computed(() => {
-      return {
-        user_id: $store.state.auth.user._id,
-        contest_id: $route.params.id,
-      };
-    });
-
-    const members = useFind({ model: Member, params: membersParams }).items;
-
     const formatDate = (date: Date) => {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(date).toLocaleDateString('en', options);
@@ -148,7 +147,6 @@ export default defineComponent({
     };
 
     return {
-      members,
       setFirst,
       formatDate,
       firstContest,

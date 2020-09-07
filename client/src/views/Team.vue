@@ -4,12 +4,12 @@
     <div class="p-5 md:p-10">
       <div class="mx-auto text-center break-words max-w-2xl mb-5">
         <h1 class="flex items-center justify-center mb-2 text-4xl font-black">
-          <div class="bg-primary rounded-lg mr-4 p-3 text-white">
+          <div class="bg-primary rounded-lg mr-5 p-3 text-white">
             <svg
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class="users w-6 h-6"
+              class="users w-5 h-5"
             >
               <path
                 stroke-linecap="round"
@@ -26,17 +26,19 @@
           atque excepturi eaque itaque debitis quia maxime.
         </p>
       </div>
-      <div class="flex items-center space-x-6">
-        <div>
-          <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="Placeholder Image"
-            class="rounded-full w-16"
-          />
-        </div>
-        <div>
-          <h2 class="text-lg font-medium">Codeirnblack</h2>
-          <p class="text-gray-700">CEO / Full stack Developer</p>
+      <div class="px-2 mt-5 md:px-5 lg:px-16">
+        <div class="flex items-center space-x-6">
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="Placeholder Image"
+              class="rounded-full w-16"
+            />
+          </div>
+          <div>
+            <h2 class="text-lg font-medium">Codeirnblack</h2>
+            <p class="text-gray-700">CEO / Full stack Developer</p>
+          </div>
         </div>
       </div>
     </div>

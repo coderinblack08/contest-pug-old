@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden md:block absolute text-left font-normal">
+  <div class="hidden md:block relative z-50 text-left font-normal">
     <svg
       viewBox="0 0 20 20"
       fill="currentColor"
@@ -20,7 +20,7 @@
       ></path>
     </svg>
     <div
-      class="origin-top-right absolute right-0 mt-4 w-48 rounded-md shadow-lg"
+      class="origin-top-right absolute left-0 mt-4 w-48 rounded-md shadow-lg"
       v-if="showDropdown"
     >
       <div class="rounded-md bg-white shadow-xs">
