@@ -85,6 +85,9 @@
           service="members"
           :query="{
             user_id: $store.state.auth.user._id,
+            $sort: {
+              start_date: -1,
+            },
           }"
           watch="query"
         >
@@ -102,7 +105,7 @@
                       v-if="contest"
                       :id="contest._id"
                       :name="contest.name"
-                      :date="formatDate(contest.start_date)"
+                      :date="formatDate(contest.start_date.substring(0, 10))"
                       :thumbnail="contest.thumbnail"
                       :participants="120"
                       :tag="contest.tag"

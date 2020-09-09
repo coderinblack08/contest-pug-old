@@ -55,7 +55,7 @@
             <Card
               :id="contest._id"
               :name="contest.name"
-              :date="formatDate(contest.start_date)"
+              :date="formatDate(contest.start_date.substring(0, 10))"
               :thumbnail="contest.thumbnail"
               :participants="120"
               :tag="contest.tag"

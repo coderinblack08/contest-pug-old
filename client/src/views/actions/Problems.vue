@@ -57,10 +57,10 @@
             </button>
           </div>
         </div>
-        <div v-if="!contests.problems.length" class="text-gray-800 text-md">
+        <div v-if="!contest.problems.length" class="text-gray-800 text-md">
           Click new question to get started creating your amazing contest!
         </div>
-        <div v-for="(contest, key) in contests.problems" :key="key">
+        <div v-else v-for="(problem, key) in contest.problems" :key="key">
           <div class="flex flex-row-reverse space-x-reverse space-x-5">
             <div
               class="flex flex-col space-y-5 bg-white shadow px-4 py-5 rounded-md text-gray-700"
@@ -126,20 +126,20 @@
               <div class="flex justify-between">
                 <div
                   class="flex items-center text-gray-600"
-                  v-if="contest.short_answer"
+                  v-if="!problem.free_response && !problem.multiple_choice"
                 >
                   Short answer question
                 </div>
                 <div class="flex items-center text-gray-600">
                   <input
                     type="text"
-                    name="points"
-                    id="points"
-                    :value="contest.points"
+                    :value="problem.points"
                     class="w-10 text-right mr-2 p-0 focus:outline-none"
                     @input="
-                      e =>
-                        e.target.value ? (contest.points = +e.target.value) : 0
+                      e => {
+                        e.target.value ? (problem.points = +e.target.value) : 0;
+                        updated(key);
+                      }
                     "
                   />
                   Points
@@ -148,13 +148,16 @@
               <textarea
                 class="w-full resize-none text-gray-900 mt-1 focus:outline-none"
                 @input="e => updated(key)"
-                v-model="contest.question"
+                v-model="problem.question"
                 placeholder="Question Statement"
               >
               </textarea>
-              <div v-if="contest.short_answer" class="mt-5">
+              <div
+                v-if="!problem.free_response && !problem.multiple_choice"
+                class="mt-5"
+              >
                 <div
-                  v-for="(answer, id) in contests.answers[key].answers"
+                  v-for="(answer, id) in contest.answers[key].answers"
                   :key="id"
                 >
                   <div class="flex items-center space-y-3 space-x-2">
@@ -162,12 +165,11 @@
                       class="flex items-center justify-between max-w-md xl:max-w-lg mt-2 shadow-sm appearance-none border rounded w-full py-2 px-3"
                     >
                       <input
-                        class="w-full text-gray-700 leading-tight focus:outline-none"
+                        class="w-full text-gray-700 leading-tight
+                      focus:outline-none"
                         placeholder="Question Answer"
-                        v-model="contests.answers[key].answers[id]"
+                        v-model="contest.answers[key].answers[id]"
                         type="text"
-                        name="answer"
-                        id="answer"
                       />
                       <div
                         @click="deleteAnswer(key, id)"
@@ -189,8 +191,8 @@
                       </div>
                     </div>
                     <button
-                      v-if="id === contests.answers[key].answers.length - 1"
-                      @click="contests.answers[key].answers.push('')"
+                      v-if="id === contest.answers[key].answers.length - 1"
+                      @click="contest.answers[key].answers.push('')"
                       class="focus:outline-none flex justify-center items-center bg-white text-gray-700 cursor-pointer px-4 h-10 shadow rounded-md mt-5"
                     >
                       Add Answer
@@ -281,7 +283,35 @@
 import Sidenav from '../../components/navigation/Sidenav.vue';
 import ContestNavbar from '../../components/navigation/ContestNavbar.vue';
 import MobileSidenav from '../../components/navigation/MobileSidenav.vue';
-import { defineComponent, ref, reactive } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  onMounted,
+} from '@vue/composition-api';
+
+interface ProblemModel {
+  _id: string;
+  contest_id: string;
+  index: number;
+  points: number;
+  question: string;
+  updated: boolean;
+  free_response: boolean;
+  mutiple_choice: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+interface Answer {
+  answers: string[];
+}
+
+interface ContestModel {
+  problems: ProblemModel[];
+  answers: Answer[];
+}
 
 export default defineComponent({
   name: 'Contest',
@@ -290,51 +320,64 @@ export default defineComponent({
     ContestNavbar,
     MobileSidenav,
   },
-  setup() {
-    const contests = reactive({
-      problems: [
-        {
-          index: 0,
-          points: 5,
-          question:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, suscipit quis? Placeat repellat eum id? Repudiandae veniam, deserunt, cupiditate ut numquam labore quidem voluptas quo delectus ipsum, tempora cumque?',
-          created: true,
-          updated: false,
-          short_answer: true,
-          mutiple_choise: false,
-        },
-      ],
-      answers: [
-        {
-          answers: ['Lorem Ipsum'],
-        },
-      ],
+  setup(props, { root: { $FeathersVuex, $route, $store } }) {
+    const contest = reactive<ContestModel>({
+      problems: [],
+      answers: [],
     });
     const showToolbox = ref(false);
-    const newProblem = (type: string) => {
-      contests.problems.push({
-        index: 0,
+    onMounted(async () => {
+      const problems = await $store.dispatch('questions/find', {
+        contest_id: $route.params.id,
+        query: {
+          $sort: {
+            index: 1,
+          },
+        },
+      });
+      contest.answers = new Array(problems.total).fill({ answers: [''] });
+      contest.problems = problems.data;
+      console.log(problems.data);
+      setInterval(async () => {
+        console.log('asdf');
+      }, 1000);
+    });
+    const newProblem = async (type: string) => {
+      contest.answers.push({ answers: [''] });
+      const { Question } = $FeathersVuex.api;
+      const newQuestion = new Question({
+        contest_id: $route.params.id,
+        index: contest.problems.length,
         points: 0,
         question: '',
-        created: true,
         updated: false,
-        short_answer: type === 'short_answer',
-        mutiple_choise: false,
+        free_response: false,
+        mutiple_choice: false,
       });
-      contests.answers.push({ answers: [''] });
+      try {
+        const savedQuestion = await newQuestion.save();
+        contest.problems.push(savedQuestion);
+        console.log(savedQuestion);
+      } catch (error) {
+        console.error(error);
+      }
       showToolbox.value = false;
     };
-    const deleteProblem = (index: number) => {
-      contests.problems.splice(index, 1);
-      contests.answers.splice(index, 1);
+    const deleteProblem = async (index: number) => {
+      try {
+        await $store.dispatch('questions/remove', contest.problems[index]._id);
+      } catch (error) {
+        console.error(error);
+      }
+      contest.problems.splice(index, 1);
+      contest.answers.splice(index, 1);
       // delete from database here:
     };
     const duplicateProblem = (index: number) => {
-      const problem = contests.problems[index];
-      problem.created = true;
+      const problem = contest.problems[index];
       problem.updated = false;
-      contests.problems.splice(index, 0, problem);
-      contests.answers.splice(index, 0, contests.answers[index]);
+      contest.problems.splice(index, 0, problem);
+      contest.answers.splice(index, 0, contest.answers[index]);
     };
     const addImage = (e: any) => {
       const files = e.target.files || e.dataTransfer.files;
@@ -343,38 +386,28 @@ export default defineComponent({
       const reader = new FileReader();
       reader.onload = (event: any) => {
         const file = event.target.result;
+        console.log(file);
       };
       reader.readAsDataURL(files[0]);
     };
     const deleteAnswer = (key: number, index: number): void => {
       if (index) {
-        contests.answers[key].answers.splice(index, 1);
+        contest.answers[key].answers.splice(index, 1);
       } else {
-        alert('you must have at least one answer per question');
+        // Handle error: Must have at least one answer
       }
     };
     const save = () => {
-      const created = contests.problems.filter(contest => contest.created);
-      const updated = contests.problems.filter(contest => contest.updated);
-      created.forEach(async (problem, index) => {
-        problem.index = index;
-        const updated = problem.updated;
-        delete problem.created;
-        delete problem.updated;
-        contests.problems[index].created = false;
-        contests.problems[index].updated = updated;
-        console.log(problem);
-      });
+      const updated = contest.problems.filter(contest => contest.updated);
     };
     const updated = (index: number) => {
-      contests.problems[index].updated = true;
-      console.log(contests.problems[index]);
+      contest.problems[index].updated = true;
     };
     return {
       save,
       updated,
       addImage,
-      contests,
+      contest,
       newProblem,
       showToolbox,
       deleteAnswer,

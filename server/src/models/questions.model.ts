@@ -10,7 +10,7 @@ export default function (app: Application): Model<any> {
       contest_id: { type: Schema.Types.ObjectId, ref: 'contests' },
       index: { type: Number, required: true },
       points: { type: Number, default: 0, max: 1e9 },
-      question: { type: String, required: true },
+      question: { type: String, required: false },
       free_response: { type: Boolean, required: true },
       multipule_choice: { type: Boolean, required: true },
     },
