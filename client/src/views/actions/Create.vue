@@ -645,7 +645,6 @@ export default defineComponent({
         tag: Yup.string().required('Tag is a required field'),
         hours: Yup.number(),
         minutes: Yup.number(),
-        // eslint-disable-next-line @typescript-eslint/camelcase
         date: Yup.string().required('Date is a required field'),
         private: Yup.boolean(),
         leaderboard: Yup.boolean(),

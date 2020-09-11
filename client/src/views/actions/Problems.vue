@@ -36,7 +36,7 @@
               Customize settings
             </router-link>
           </div>
-          <div>
+          <!-- <div>
             <button
               @click="save"
               class="flex items-center mt-5 sm:mt-0 justify-between rounded-md focus:outline-none focus:shadow-outline-blue bg-white shadow py-3 px-5 text-gray-600 font-medium"
@@ -55,153 +55,162 @@
                 ></path></svg
               >Save Draft
             </button>
-          </div>
+          </div> -->
         </div>
-        <div v-if="!contest.problems.length" class="text-gray-800 text-md">
+        <div
+          v-if="!contest.problems.length && animate"
+          class="text-gray-800 text-md"
+        >
           Click new question to get started creating your amazing contest!
         </div>
         <div v-else v-for="(problem, key) in contest.problems" :key="key">
-          <div class="flex flex-row-reverse space-x-reverse space-x-5">
+          <transition name="fade">
             <div
-              class="flex flex-col space-y-5 bg-white shadow px-4 py-5 rounded-md text-gray-700"
+              class="flex flex-row-reverse space-x-reverse space-x-5"
+              v-if="animate"
             >
-              <div @click="deleteProblem(key)" class="cursor-pointer">
-                <svg
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  class="trash w-5 h-5"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  ></path>
-                </svg>
-              </div>
-              <div @click="duplicateProblem(key)" class="cursor-pointer">
-                <svg
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  class="duplicate w-5 h-5"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                type="file"
-                ref="file"
-                id="file"
-                @change="addImage"
-                class="hidden"
-                accept="image/*"
-              />
               <div
-                class="cursor-pointer"
-                onclick="document.getElementById('file').click()"
+                class="flex flex-col space-y-5 bg-white shadow px-4 py-5 rounded-md text-gray-700"
               >
-                <svg
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  class="photograph w-5 h-5"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-            <div class="bg-white shadow w-full p-5 rounded-md">
-              <div class="flex justify-between">
+                <div @click="deleteProblem(key)" class="cursor-pointer">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="trash w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                    ></path>
+                  </svg>
+                </div>
+                <div @click="duplicateProblem(key)" class="cursor-pointer">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="duplicate w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  type="file"
+                  ref="file"
+                  id="file"
+                  @change="addImage"
+                  class="hidden"
+                  accept="image/*"
+                />
                 <div
-                  class="flex items-center text-gray-600"
+                  class="cursor-pointer"
+                  onclick="document.getElementById('file').click()"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="photograph w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="bg-white shadow w-full p-5 rounded-md">
+                <div class="flex justify-between">
+                  <div
+                    class="flex items-center text-gray-600"
+                    v-if="!problem.free_response && !problem.multiple_choice"
+                  >
+                    Short answer question
+                  </div>
+                  <div class="flex items-center text-gray-600">
+                    <input
+                      type="text"
+                      :value="problem.points"
+                      class="w-10 text-right mr-2 p-0 focus:outline-none"
+                      @input="
+                        e => {
+                          e.target.value
+                            ? (problem.points = +e.target.value)
+                            : 0;
+                          updated(key);
+                        }
+                      "
+                    />
+                    Points
+                  </div>
+                </div>
+                <textarea
+                  class="w-full resize-none text-gray-900 mt-1 focus:outline-none"
+                  @input="e => updated(key)"
+                  v-model="problem.question"
+                  placeholder="Question Statement"
+                >
+                </textarea>
+                <div
                   v-if="!problem.free_response && !problem.multiple_choice"
+                  class="mt-5"
                 >
-                  Short answer question
-                </div>
-                <div class="flex items-center text-gray-600">
-                  <input
-                    type="text"
-                    :value="problem.points"
-                    class="w-10 text-right mr-2 p-0 focus:outline-none"
-                    @input="
-                      e => {
-                        e.target.value ? (problem.points = +e.target.value) : 0;
-                        updated(key);
-                      }
-                    "
-                  />
-                  Points
-                </div>
-              </div>
-              <textarea
-                class="w-full resize-none text-gray-900 mt-1 focus:outline-none"
-                @input="e => updated(key)"
-                v-model="problem.question"
-                placeholder="Question Statement"
-              >
-              </textarea>
-              <div
-                v-if="!problem.free_response && !problem.multiple_choice"
-                class="mt-5"
-              >
-                <div
-                  v-for="(answer, id) in contest.answers[key].answers"
-                  :key="id"
-                >
-                  <div class="flex items-center space-y-3 space-x-2">
-                    <div
-                      class="flex items-center justify-between max-w-md xl:max-w-lg mt-2 shadow-sm appearance-none border rounded w-full py-2 px-3"
-                    >
-                      <input
-                        class="w-full text-gray-700 leading-tight
-                      focus:outline-none"
-                        placeholder="Question Answer"
-                        v-model="contest.answers[key].answers[id]"
-                        type="text"
-                      />
+                  <div
+                    v-for="(answer, id) in contest.answers[key].answers"
+                    :key="id"
+                  >
+                    <div class="flex items-center space-y-3 space-x-2">
                       <div
-                        @click="deleteAnswer(key, id)"
-                        class="flex items-center justify-center cursor-pointer p-1 rounded-full hover:bg-gray-200"
+                        class="flex items-center justify-between max-w-md xl:max-w-lg mt-2 shadow-sm appearance-none border rounded w-full py-2 px-3"
                       >
-                        <svg
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          class="x w-4 h-4 text-gray-700"
+                        <input
+                          class="w-full text-gray-700 leading-tight focus:outline-none"
+                          placeholder="Question Answer"
+                          v-model="contest.answers[key].answers[id]"
+                          type="text"
+                        />
+                        <div
+                          @click="deleteAnswer(key, id)"
+                          class="flex items-center justify-center cursor-pointer p-1 rounded-full hover:bg-gray-200"
                         >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
-                          ></path>
-                        </svg>
+                          <svg
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            class="x w-4 h-4 text-gray-700"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            ></path>
+                          </svg>
+                        </div>
                       </div>
+                      <button
+                        v-if="id === contest.answers[key].answers.length - 1"
+                        @click="contest.answers[key].answers.push('')"
+                        class="focus:outline-none flex justify-center items-center bg-white text-gray-700 cursor-pointer px-4 h-10 shadow rounded-md mt-5"
+                      >
+                        Add Answer
+                      </button>
                     </div>
-                    <button
-                      v-if="id === contest.answers[key].answers.length - 1"
-                      @click="contest.answers[key].answers.push('')"
-                      class="focus:outline-none flex justify-center items-center bg-white text-gray-700 cursor-pointer px-4 h-10 shadow rounded-md mt-5"
-                    >
-                      Add Answer
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
         <div class="flex flex-wrap justify-center space-x-5">
           <div
@@ -288,6 +297,7 @@ import {
   ref,
   reactive,
   onMounted,
+  onUnmounted,
 } from '@vue/composition-api';
 
 interface ProblemModel {
@@ -326,6 +336,21 @@ export default defineComponent({
       answers: [],
     });
     const showToolbox = ref(false);
+    const animate = ref(false);
+    const save = () => {
+      const updated = contest.problems.filter(contest => contest.updated);
+      updated.forEach(async problem => {
+        try {
+          await $store.dispatch('questions/patch', [
+            problem._id,
+            { question: problem.question, points: problem.points },
+          ]);
+          problem.updated = false;
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    };
     onMounted(async () => {
       const problems = await $store.dispatch('questions/find', {
         contest_id: $route.params.id,
@@ -338,9 +363,15 @@ export default defineComponent({
       contest.answers = new Array(problems.total).fill({ answers: [''] });
       contest.problems = problems.data;
       console.log(problems.data);
-      setInterval(async () => {
-        console.log('asdf');
+      setTimeout(() => {
+        animate.value = true;
+      }, 100);
+      setInterval(() => {
+        save();
       }, 1000);
+    });
+    onUnmounted(() => {
+      save();
     });
     const newProblem = async (type: string) => {
       contest.answers.push({ answers: [''] });
@@ -397,17 +428,15 @@ export default defineComponent({
         // Handle error: Must have at least one answer
       }
     };
-    const save = () => {
-      const updated = contest.problems.filter(contest => contest.updated);
-    };
     const updated = (index: number) => {
       contest.problems[index].updated = true;
     };
     return {
       save,
       updated,
-      addImage,
       contest,
+      animate,
+      addImage,
       newProblem,
       showToolbox,
       deleteAnswer,
@@ -417,3 +446,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
